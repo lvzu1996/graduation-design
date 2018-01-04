@@ -1,0 +1,6 @@
+[submodule "program/management"]
+	path = program/management
+	url = https://git.coding.net/lvzu1996/management.git
+[submodule "program/git"]
+	path = program/git
+	url = https://coding.net/u/lvzu1996/p/management/git
