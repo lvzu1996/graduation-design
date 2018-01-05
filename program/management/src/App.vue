@@ -4,7 +4,7 @@
     <div id="ope-main">
       <Operation></Operation>
       <transition name="fade" mode="out-in">
-        <router-view/>
+        <router-view style="padding-top:60px;padding-left:203px;"></router-view>
       </transition>
     </div>
   </div>
@@ -27,6 +27,7 @@ export default {
 
 body{
   margin: 0;
+  min-height: 100%;
 }
 
 #app {
