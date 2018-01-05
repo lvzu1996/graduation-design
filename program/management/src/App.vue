@@ -4,7 +4,7 @@
     <div id="ope-main">
       <Operation></Operation>
       <transition name="fade" mode="out-in">
-        <router-view style="padding-top:60px;padding-left:203px;"></router-view>
+        <router-view style="margin-top:60px;margin-left:203px;overflow: hidden;"></router-view>
       </transition>
     </div>
   </div>
@@ -38,7 +38,10 @@ body{
   color: #2c3e50;
 }
 
-
+/* course页面表头居中 */
+.el-table th{
+  text-align: center;
+}
 
 .fade-enter-active,
 .fade-leave-active {
