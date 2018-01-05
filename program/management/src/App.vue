@@ -1,24 +1,45 @@
 <template>
   <div id="app">
-    <Header></Header>
-    <div id="ope-main">
-      <Operation></Operation>
-      <transition name="fade" mode="out-in">
-        <router-view style="margin-top:60px;margin-left:203px;overflow: hidden;"></router-view>
-      </transition>
-    </div>
+    <transition name="fade" mode="out-in">
+      <div v-if="logined">
+        <Header></Header>
+            <div id="ope-main">
+              <Operation></Operation>
+              <transition name="fade" mode="out-in">
+                <router-view style="margin-top:60px;margin-left:203px;overflow: hidden;"></router-view>
+              </transition>
+            </div>
+      </div>
+     </transition>
+     <transition name="fade" mode="out-in">
+      <div v-if="!logined">
+        <Login></Login>
+      </div>
+     </transition>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import Operation from './components/Operation.vue'
+import Login from './components/Login.vue'
 
 export default {
   name: 'app',
+  data () {
+    return {
+      logined: true
+    }
+  },
   components: {
     Header: Header,
-    Operation: Operation
+    Operation: Operation,
+    Login: Login
+  },
+  methods: {
+    test: function () {
+      this.logined = true
+    }
   }
 }
 </script>
