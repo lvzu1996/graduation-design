@@ -2,27 +2,62 @@
   <div id="main-part">
     <p>登录后台管理系统</p>
     <el-input 
-        v-model="telephone" 
+        v-model="managerTelephone" 
         placeholder="请输入手机号" 
         class="login-input" 
+        :maxlength=11
+        @blur="_mobiTest(managerTelephone)"
         prefix-icon='el-icon-phone-outline'>
     </el-input>
     <el-input 
-        v-model="telephone" 
+        v-model="managerPassword" 
         placeholder="请输入密码" 
         class="login-input"
+        type = 'password'
+        :maxlength=22
         prefix-icon='el-icon-edit-outline'>
     </el-input>
-    <el-button plain style="width:60%;margin-top:25px;">登录</el-button>
+    <el-button plain style="width:60%;margin-top:25px;" @click="_login">登录</el-button>
   </div>
 </template>
 
 <script>
+import DB from '../utils/db.js'
+import SHA1 from '../utils/sha1'
 export default {
   data () {
     return {
-      telephone: '',
-      password: ''
+      managerTelephone: '',
+      managerPassword: ''
+    }
+  },
+  methods: {
+    _login: function () {
+      const _this = this
+      DB.api.login({
+        'managerTelephone': _this.managerTelephone,
+        'managerPassword': SHA1(_this.managerTelephone + _this.managerPassword)
+      }).then(
+        re => {
+          _this.$store.commit('setManagerAvatarUrl', re.managerAvatarUrl)
+          _this.$store.commit('setManagerName', re.managerName)
+          _this.$emit('loginOk')
+        },
+        re => {
+          _this.$message.error('账号密码错误')
+          _this.managerTelephone = ''
+          _this.managerPassword = ''
+        }
+      )
+    },
+    _mobiTest: function (pn) {
+      var mobiReg = new RegExp(/^1(3|4|5|7|8)\d{9}$/)
+      if (!mobiReg.test(pn)) {
+        this.$message.error('请输入正确的手机号！')
+        this.managerTelephone = ''
+        return false
+      }
+      return true
     }
   }
 }

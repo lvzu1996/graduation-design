@@ -8,13 +8,17 @@ public class ManagerEntity {
     private String managerName;
     private String managerTelephone;
     private String managerPassword;
+    private String managerAvatarUrl;
 
-
-    public ManagerEntity(Integer managerId, String managerName, String managerTelephone, String managerPassword) {
+    public ManagerEntity(Integer managerId, String managerName, String managerTelephone, String managerPassword, String managerAvatarUrl) {
         this.managerId = managerId;
         this.managerName = managerName;
         this.managerTelephone = managerTelephone;
         this.managerPassword = managerPassword;
+        this.managerAvatarUrl = managerAvatarUrl;
+    }
+
+    public ManagerEntity() {
     }
 
     public Integer getManagerId() {
@@ -47,5 +51,13 @@ public class ManagerEntity {
 
     public void setManagerPassword(String managerPassword) {
         this.managerPassword = managerPassword;
+    }
+
+    public String getManagerAvatarUrl() {
+        return managerAvatarUrl;
+    }
+
+    public void setManagerAvatarUrl(String managerAvatarUrl) {
+        this.managerAvatarUrl = managerAvatarUrl;
     }
 }

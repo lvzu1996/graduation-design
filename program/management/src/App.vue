@@ -13,7 +13,7 @@
      </transition>
      <transition name="fade" mode="out-in">
       <div v-if="!logined">
-        <Login></Login>
+        <Login @loginOk="_login"></Login>
       </div>
      </transition>
   </div>
@@ -28,7 +28,7 @@ export default {
   name: 'app',
   data () {
     return {
-      logined: true
+      logined: false
     }
   },
   components: {
@@ -38,6 +38,9 @@ export default {
   },
   methods: {
     test: function () {
+      this.logined = true
+    },
+    _login () {
       this.logined = true
     }
   }

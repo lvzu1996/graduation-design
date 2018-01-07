@@ -2,18 +2,23 @@
   <div id='manage-header'>
     <div id="manage-title">兴趣班拼团后台管理</div>
     <div id="manager-info">
-      <img src="http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/contact/lvzu.png">
-      <span>张某某</span>
+      <img :src="managerAvatarUrl">
+      <span>{{managerName}}</span>
     </div>
   </div>
 </template>
 
 <script>
+import store from '../store/store.js'
 export default {
   name: 'Header',
   data () {
-    return {}
-  }
+    return {
+      managerAvatarUrl: this.$store.state.managerAvatarUrl,
+      managerName: this.$store.state.managerName
+    }
+  },
+  store
 }
 </script>
 

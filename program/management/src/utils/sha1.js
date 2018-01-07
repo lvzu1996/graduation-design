@@ -36,7 +36,7 @@ function kt (t) {
         : (t < 60) ? -1894007588 : -899497514
 }
 
-function SHA1 (sIn) {
+function SHACA (sIn) {
   var x = AlignSHA1(sIn)
   var w = new Array(80)
   var a = 1732584193
@@ -70,6 +70,8 @@ function SHA1 (sIn) {
   return SHA1Value.toUpperCase()
 }
 
-function SHA2 (sIn) {
-  return SHA1(sIn).toLowerCase()
+function SHA1 (sIn) {
+  return SHACA(sIn).toLowerCase()
 }
+
+export default SHA1
