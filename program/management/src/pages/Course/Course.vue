@@ -5,13 +5,13 @@
     style="width: 100%">
     <el-table-column
       label="课程名"
-      width="180">
+      width="300">
       <template slot-scope="scope">
         <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
+          <p>课程ID: {{ scope.row.courseId }}</p>
+          <p>课程名: {{ scope.row.courseName }}</p>
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+            <el-tag size="medium">{{ scope.row.courseName }}</el-tag>
           </div>
         </el-popover>
       </template>
@@ -32,33 +32,84 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        tableData: [{
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
-      }
-    },
-    methods: {
-      handleEdit (index, row) {
-        console.log(index, row)
+import DB from '../../utils/db.js'
+export default {
+  data () {
+    return {
+      tableData: []
+    }
+  },
+  created () {
+    this.getCourseList()
+  },
+  methods: {
+    getCourseList () {
+      const _this = this
+      DB.api.getCourses({}).then(
+      re => {
+        _this.tableData = re
       },
-      handleDelete (index, row) {
-        console.log(index, row)
+      re => {
+        console.log(re)
       }
+    )
+    },
+    handleEdit (index, row) {
+      this.editCourse(row.courseName)
+    },
+    handleDelete (index, row) {
+      this.deleteCourse(row.courseName)
+    },
+    editCourse (courseName) {
+      const _this = this
+      this.$prompt('请输入新课程名', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        DB.api.patchCourse({
+          'oldCourseName': courseName,
+          'newCourseName': value
+        }).then(
+          re => {
+            _this.getCourseList()
+          },
+          re => {
+            _this.$message.error(re)
+          }
+        )
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消修改'
+        })
+      })
+    },
+    deleteCourse (courseName) {
+      const _this = this
+      _this.$confirm('此操作将永久删除该课程, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        DB.api.deleteCourse({
+          'parameter': courseName
+        }).then(
+          re => {
+            _this.getCourseList()
+          },
+          re => {
+            _this.$message.error(re)
+          }
+        )
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
+}
 </script>
 
 <style scoped>

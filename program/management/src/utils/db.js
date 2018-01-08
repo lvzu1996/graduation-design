@@ -18,6 +18,18 @@ DBF.create('api', {
   login: {
     url: prefix + '/api/login',
     method: 'POST'
+  },
+  getCourses: {
+    url: prefix + '/api/courses',
+    method: 'GET'
+  },
+  deleteCourse: {
+    url: prefix + '/api/courses',
+    method: 'DELETE'
+  },
+  patchCourse: {
+    url: prefix + '/api/courses',
+    method: 'PATCH'
   }
 
 })

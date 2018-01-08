@@ -41,8 +41,26 @@ function Request (config, body) {
         // credentials: "include",
         body: JSON.stringify(body)
       })
-    }else {
+    }else if (method.toUpperCase() === 'GET'){
       url += `?${param(body)}`
+    }else if(method.toUpperCase() === 'DELETE'){
+      url += ('/'+body['parameter'])
+      Object.assign(option, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json ;charset=UTF-8'
+        },
+        method: 'DELETE',
+      })
+    }else if(method.toUpperCase() === 'PATCH'){
+      Object.assign(option, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json ;charset=UTF-8'
+        },
+        method: 'PATCH',
+        body: JSON.stringify(body)
+      })
     }
 
   return new Promise((resolve, reject) => {
