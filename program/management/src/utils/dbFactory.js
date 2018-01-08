@@ -38,6 +38,7 @@ function Request (config, body) {
             'Content-Type': 'application/json ;charset=UTF-8'
           },
         method: 'post',
+        // credentials: "include",
         body: JSON.stringify(body)
       })
     }else {
