@@ -1,16 +1,12 @@
 package com.lvzu.controller;
 
 
-import com.lvzu.controller.requestBody.AddCourseRequest;
-import com.lvzu.dao.ClassMapper;
 import com.lvzu.dao.CourseMapper;
-import com.lvzu.entity.ClassEntity;
 import com.lvzu.entity.CourseEntity;
 import com.lvzu.entity.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +32,9 @@ public class CourseController {
 //    }
 
     @RequestMapping(value ="/api/courses", method = RequestMethod.POST)
-    public ResponseEntity AddOne(@RequestBody AddCourseRequest addCourseRequest) {
+    public ResponseEntity AddOne(@RequestBody Map<String, String> requestData) {
         responseEntity = new ResponseEntity();
-        String courseName = addCourseRequest.getCourseName();
+        String courseName = requestData.get("courseName");
         if(courseMapper.exist(courseName)==null){
             Integer influencedCount = courseMapper.insert(courseName);
             if(influencedCount == 1){
@@ -52,30 +48,41 @@ public class CourseController {
         return responseEntity;
     }
 
-    @RequestMapping(value ="/api/reviceCourses", method = RequestMethod.POST)
+    @RequestMapping(value ="/api/courses", method = RequestMethod.PATCH)
     public ResponseEntity Revice(@RequestBody Map<String, String> requestData) {
         responseEntity = new ResponseEntity();
         String oldCourseName = requestData.get("oldCourseName");
         String newCourseName = requestData.get("newCourseName");
         if(courseMapper.exist(oldCourseName) != null){
             if(courseMapper.exist(newCourseName) == null){
-                int influenced = courseMapper.update(oldCourseName,newCourseName);
+                Integer influenced = courseMapper.update(oldCourseName,newCourseName);
                 if(influenced == 1){
-                    responseEntity.success();
+                    responseEntity = responseEntity.success();
                 }else {
-                    responseEntity.fail(10004);
+                    responseEntity = responseEntity.fail(10004);
                 }
             }else {
-                responseEntity.fail(10001);
+                responseEntity = responseEntity.fail(10001);
             }
         }else {
-            responseEntity.fail(10003);
+            responseEntity = responseEntity.fail(10003);
         }
         return responseEntity;
     }
 
-    @RequestMapping(value ="/api/courses/{id}", method = RequestMethod.DELETE)
-    public void Delete(@PathVariable("id") Integer id) {
-        courseMapper.delete(id);
+    @RequestMapping(value ="/api/courses/{courseName}", method = RequestMethod.DELETE)
+    public ResponseEntity Delete(@PathVariable("courseName") String courseName) {
+        responseEntity = new ResponseEntity();
+        if(courseMapper.exist(courseName) != null){
+            Integer influenced = courseMapper.delete(courseName);
+            if(influenced == 1){
+                responseEntity = responseEntity.success();
+            }else{
+                responseEntity = responseEntity.fail(10005);
+            }
+        }else{
+            responseEntity = responseEntity.fail(10003);
+        }
+        return responseEntity;
     }
 }

@@ -25,7 +25,7 @@ public interface CourseMapper {
     @Update("Update course set courseName=#{newCourseName} WHERE courseName =#{oldCourseName}")
     Integer update(@Param("oldCourseName") String oldCourseName, @Param("newCourseName") String newCourseName);
 
-    @Delete("DELETE FROM course WHERE courseId =#{id}")
-    void delete(Integer id);
+    @Delete("DELETE FROM course WHERE courseName =#{courseName}")
+    Integer delete(String courseName);
 
 }

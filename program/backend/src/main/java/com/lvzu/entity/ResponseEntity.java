@@ -15,6 +15,7 @@ public class ResponseEntity {
      *  10002 insert fail
      *  10003 course not found
      *  10004 revice fail
+     *  10005 delete fail
      *  ****************************
      *  2000x ----- /api/login
      *  20001 telephone password error
