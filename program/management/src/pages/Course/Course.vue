@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="course-father">
   <el-table
     :data="tableData"
     style="width: 100%">
@@ -25,24 +25,58 @@
           size="mini"
           type="danger"
           @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button
+        size="mini"
+        type="success"
+        @click="handleAdd(scope.$index, scope.row)">新增</el-button>
       </template>
     </el-table-column>
   </el-table>
+  <!-- <div id="course-add">
+    <el-input v-model="courseAddName" placeholder="添加课程" prefix-icon='el-icon-edit' id="course-add-input"></el-input>
+    <el-button type="success" >成功按钮</el-button>
+  </div> -->
   </div>
 </template>
 
 <script>
 import DB from '../../utils/db.js'
+
+/**
+     *  ****************************
+     *  1000x ----- /api/course
+     *  10001 duplicated course name
+     *  10002 insert fail
+     *  10003 course not found
+     *  10004 revice fail
+     *  10005 delete fail
+     *  ****************************
+     *  2000x ----- /api/login
+     *  20001 telephone password error
+     */
+
+const error_num_map = {
+  '10001': 'duplicated course name',
+  '10002': 'insert fail',
+  '10003': 'course not found',
+  '10004': 'revice fail',
+  '10005': 'delete fail'
+}
+
 export default {
   data () {
     return {
-      tableData: []
+      tableData: [],
+      courseAddName: ''
     }
   },
   created () {
     this.getCourseList()
   },
   methods: {
+    _handleError (re) {
+      this.$message.error(error_num_map[re.error_num])
+    },
     getCourseList () {
       const _this = this
       DB.api.getCourses({}).then(
@@ -50,31 +84,25 @@ export default {
         _this.tableData = re
       },
       re => {
-        console.log(re)
+        _this._handleError(re)
       }
     )
     },
     handleEdit (index, row) {
-      this.editCourse(row.courseName)
-    },
-    handleDelete (index, row) {
-      this.deleteCourse(row.courseName)
-    },
-    editCourse (courseName) {
       const _this = this
-      this.$prompt('请输入新课程名', '提示', {
+      this.$prompt('请输入修改后的新课程名', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {
         DB.api.patchCourse({
-          'oldCourseName': courseName,
+          'oldCourseName': row.courseName,
           'newCourseName': value
         }).then(
           re => {
             _this.getCourseList()
           },
           re => {
-            _this.$message.error(re)
+            _this._handleError(re)
           }
         )
       }).catch(() => {
@@ -84,7 +112,7 @@ export default {
         })
       })
     },
-    deleteCourse (courseName) {
+    handleDelete (index, row) {
       const _this = this
       _this.$confirm('此操作将永久删除该课程, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -92,19 +120,42 @@ export default {
         type: 'warning'
       }).then(() => {
         DB.api.deleteCourse({
-          'parameter': courseName
+          'parameter': row.courseName
         }).then(
           re => {
             _this.getCourseList()
           },
           re => {
-            _this.$message.error(re)
+            _this._handleError(re)
           }
         )
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
+        })
+      })
+    },
+    handleAdd (index, row) {
+      const _this = this
+      this.$prompt('请输入新课程名', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        DB.api.addCourse({
+          'courseName': value
+        }).then(
+          re => {
+            _this.getCourseList()
+          },
+          re => {
+            _this._handleError(re)
+          }
+        )
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消新增'
         })
       })
     }

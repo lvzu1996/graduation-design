@@ -28,7 +28,7 @@ export default {
   name: 'app',
   data () {
     return {
-      logined: false
+      logined: true
     }
   },
   components: {

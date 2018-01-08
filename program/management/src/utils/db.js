@@ -23,6 +23,10 @@ DBF.create('api', {
     url: prefix + '/api/courses',
     method: 'GET'
   },
+  addCourse: {
+    url: prefix + '/api/courses',
+    method: 'POST'
+  },
   deleteCourse: {
     url: prefix + '/api/courses',
     method: 'DELETE'
