@@ -28,6 +28,14 @@ public class ClassEntity implements Serializable {
         this.classEndTime = classEndTime;
     }
 
+    public ClassEntity(String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime) {
+        this.className = className;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.classStartTime = classStartTime;
+        this.classEndTime = classEndTime;
+    }
+
     public String getClassName() {
         return className;
     }

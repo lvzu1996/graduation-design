@@ -9,8 +9,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import store from './store/store.js'
 
+import setPrototype from './utils/setPrototype.js'
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+/* 设置prototype */
+setPrototype()
 
 /* eslint-disable no-new */
 new Vue({

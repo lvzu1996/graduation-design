@@ -78,18 +78,21 @@
     </el-form-item>
     <el-form-item label="起始日期">
     <el-date-picker
-      v-model="newClass.classStartTime"
-      type="date"
-      placeholder="选择日期">
+      v-model="newClass.classDateRange"
+      type="daterange"
+      placeholder="选择日期"
+      value-format="yyyy-MM-dd"
+      :default-value="now">
     </el-date-picker>
     </el-form-item>
-    <el-form-item label="结束日期">
+    <!-- <el-form-item label="结束日期">
     <el-date-picker
       v-model="newClass.classEndTime"
       type="date"
-      placeholder="选择日期">
+      placeholder="选择日期"
+      value-format="yyyy-MM-dd">
     </el-date-picker>
-    </el-form-item>
+    </el-form-item> -->
     <el-button @click="createClass">创建班级</el-button>
   </el-form>
   </div>
@@ -99,7 +102,14 @@
 </template>
 
 <script>
+/*  ****************************
+  *  3000x ----- /api/class
+  *  30001 insert fail
+  */
 import DB from '../../utils/db.js'
+const errorNumMap = {
+  '30001': 'insert fail'
+}
 
 export default {
   data () {
@@ -114,13 +124,23 @@ export default {
       }],
       courseListData: [{
         courseId: 1,
-        courseName: '零基础】Scratch趣味创意编程'
+        courseName: '【零基础】Scratch趣味创意编程'
       }],
       newClass: {
         courseId: '',
         className: '',
-        classStartTime: '',
-        classEndTime: ''
+        classDateRange: ['', '']
+      },
+      now: new Date()
+    }
+  },
+  computed: {
+    newClassFormData () {
+      return {
+        courseId: this.newClass.courseId,
+        className: this.newClass.className,
+        classStartTime: this.newClass.classDateRange[0],
+        classEndTime: this.newClass.classDateRange[1]
       }
     }
   },
@@ -129,6 +149,9 @@ export default {
     this.getCourseList()
   },
   methods: {
+    _handleError (re) {
+      this.$message.error(errorNumMap[re.error_num])
+    },
     getClassList () {
       const _this = this
       DB.CLASS.getClasses({}).then(
@@ -152,10 +175,31 @@ export default {
     },
     createClass () {
       const _this = this
-      DB.CLASS.createClass(_this.newClass).then(
-        re => { console.log(re) },
-        re => { console.log(re) }
-      )
+      console.log(_this.newClass)
+      // if (!_this._varifyCreateForm()) {
+      //   return
+      // }
+      // DB.CLASS.createClass(_this.newClassFormData).then(
+      //   re => {
+      //     _this.getClassList()
+      //   },
+      //   re => { console.log(re) }
+      // )
+    },
+    _varifyCreateForm () {
+      if (this.newClassFormData.courseId === '') {
+        this.$message.error('请选择课程!')
+        return false
+      }
+      if (this.newClassFormData.className === '') {
+        this.$message.error('请输入班级名!')
+        return false
+      }
+      if (this.newClassFormData.classStartTime === '' || this.newClassFormData.classEndTime === '') {
+        this.$message.error('请选择正确的时间!')
+        return false
+      }
+      return true
     },
     handleEdit (index, row) {
       console.log(index, row)

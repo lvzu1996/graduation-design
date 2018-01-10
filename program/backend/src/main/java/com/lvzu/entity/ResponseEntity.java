@@ -19,6 +19,9 @@ public class ResponseEntity {
      *  ****************************
      *  2000x ----- /api/login
      *  20001 telephone password error
+     *  ****************************
+     *  3000x ----- /api/class
+     *  30001 insert fail
      */
     private String msg;
     private Object data;

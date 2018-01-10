@@ -3,3 +3,4 @@
 /dist/
 /*.js
 dbFactory.js
+setPrototype.js
