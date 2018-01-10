@@ -10,30 +10,41 @@ var prefix = ''
 // if (process.env.NODE_ENV === 'production') {
 //   prefix = 'https://world-elite.site'
 // }
-prefix = 'http://127.0.0.1:8080'
+prefix = 'http://127.0.0.1:8080/api'
 // prefix = 'https://world-elite.site'
 
-DBF.create('api', {
+DBF.create('LOGIN', {
     // 登录api
   login: {
-    url: prefix + '/api/login',
+    url: prefix + '/login',
     method: 'POST'
-  },
+  }
+})
+DBF.create('COURSE', {
   getCourses: {
-    url: prefix + '/api/courses',
+    url: prefix + '/courses',
     method: 'GET'
   },
   addCourse: {
-    url: prefix + '/api/courses',
+    url: prefix + '/courses',
     method: 'POST'
   },
   deleteCourse: {
-    url: prefix + '/api/courses',
+    url: prefix + '/courses',
     method: 'DELETE'
   },
   patchCourse: {
-    url: prefix + '/api/courses',
+    url: prefix + '/courses',
     method: 'PATCH'
   }
-
+})
+DBF.create('CLASS', {
+  getClasses: {
+    url: prefix + '/classes',
+    method: 'GET'
+  },
+  createClass: {
+    url: prefix + '/classes',
+    method: 'POST'
+  }
 })

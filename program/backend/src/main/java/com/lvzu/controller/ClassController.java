@@ -1,32 +1,43 @@
 package com.lvzu.controller;
 
 import com.lvzu.dao.ClassMapper;
+import com.lvzu.dao.CourseMapper;
 import com.lvzu.entity.ClassEntity;
+import com.lvzu.entity.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ClassController {
 
     @Resource
     private ClassMapper classMapper;
+    private CourseMapper courseMapper;
 
-    @RequestMapping(value= "/getClasses",method = RequestMethod.GET)
-    public List<ClassEntity> getClasses() {
+    private ResponseEntity responseEntity;
+
+    @RequestMapping(value= "/api/classes",method = RequestMethod.GET)
+    public ResponseEntity getClasses() {
         List<ClassEntity> classes= classMapper.getAll();
-        return classes;
+        responseEntity = new ResponseEntity();
+        responseEntity = responseEntity.success(classes);
+        return responseEntity;
     }
 
-    @RequestMapping(value = "/getOne/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/getOne/{id}", method = RequestMethod.GET)
     public ClassEntity getOne(@PathVariable("id") Integer id) {
         ClassEntity aClass= classMapper.getOne(id);
         return aClass;
     }
 
-    @RequestMapping(value ="/addOne", method = RequestMethod.POST)
-    public ClassEntity AddOne(@RequestBody ClassEntity aClass) {
+    @RequestMapping(value ="/api/addOne", method = RequestMethod.POST)
+    public ClassEntity AddOne(@RequestBody Map<String, String> requestData) {
+        String courseName = requestData.get("courseName");
+        String className = requestData.get("className");
+        ClassEntity aClass = new ClassEntity();
         classMapper.insert(aClass);
         return aClass;
     }

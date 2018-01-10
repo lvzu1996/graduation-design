@@ -1,13 +1,13 @@
 <template>
 <div id="course-father">
   <el-table
-    :data="tableData"
+    :data="courseListData"
     style="width: 100%">
     <el-table-column
       label="课程名"
       width="300">
       <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
+        <el-popover trigger="focus" placement="top">
           <p>课程ID: {{ scope.row.courseId }}</p>
           <p>课程名: {{ scope.row.courseName }}</p>
           <div slot="reference" class="name-wrapper">
@@ -55,7 +55,7 @@ import DB from '../../utils/db.js'
      *  20001 telephone password error
      */
 
-const error_num_map = {
+const errorNumMap = {
   '10001': 'duplicated course name',
   '10002': 'insert fail',
   '10003': 'course not found',
@@ -66,7 +66,7 @@ const error_num_map = {
 export default {
   data () {
     return {
-      tableData: [],
+      courseListData: [],
       courseAddName: ''
     }
   },
@@ -75,13 +75,13 @@ export default {
   },
   methods: {
     _handleError (re) {
-      this.$message.error(error_num_map[re.error_num])
+      this.$message.error(errorNumMap[re.error_num])
     },
     getCourseList () {
       const _this = this
-      DB.api.getCourses({}).then(
+      DB.COURSE.getCourses({}).then(
       re => {
-        _this.tableData = re
+        _this.courseListData = re
       },
       re => {
         _this._handleError(re)
@@ -94,7 +94,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-        DB.api.patchCourse({
+        DB.COURSE.patchCourse({
           'oldCourseName': row.courseName,
           'newCourseName': value
         }).then(
@@ -119,7 +119,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        DB.api.deleteCourse({
+        DB.COURSE.deleteCourse({
           'parameter': row.courseName
         }).then(
           re => {
@@ -142,7 +142,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-        DB.api.addCourse({
+        DB.COURSE.addCourse({
           'courseName': value
         }).then(
           re => {

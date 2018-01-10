@@ -16,7 +16,7 @@ public interface ClassMapper {
     @Select("SELECT * FROM class WHERE classId = #{id}")
     ClassEntity getOne(Integer id);
 
-    @Insert("INSERT INTO class(classId,className,courseId,courseName,classStartTime,classEndTime) VALUES(#{classId}, #{className},#{courseId},#{courseName},#{classStartTime},#{classEndTime})")
+    @Insert("INSERT INTO class(className,courseId,courseName,classStartTime,classEndTime) VALUES(#{classId}, #{className},#{courseId},#{courseName},#{classStartTime},#{classEndTime})")
     void insert(ClassEntity aclass);
 
     @Update("Update class set classId =#{aclass.classId},className=#{aclass.className},courseId=#{aclass.courseId},courseName=#{aclass.courseName},classStartTime=#{aclass.classStartTime},classEndTime=#{aclass.classEndTime} WHERE classId =#{id}")

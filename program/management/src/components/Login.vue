@@ -34,7 +34,7 @@ export default {
   methods: {
     _login: function () {
       const _this = this
-      DB.api.login({
+      DB.LOGIN.login({
         'managerTelephone': _this.managerTelephone,
         'managerPassword': SHA1(_this.managerTelephone + _this.managerPassword)
       }).then(
