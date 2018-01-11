@@ -79,7 +79,7 @@ export default {
     },
     getCourseList () {
       const _this = this
-      DB.COURSE.getCourses({}).then(
+      DB.COURSE.get({}).then(
       re => {
         _this.courseListData = re
       },
@@ -94,7 +94,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-        DB.COURSE.patchCourse({
+        DB.COURSE.revice({
           'oldCourseName': row.courseName,
           'newCourseName': value
         }).then(
@@ -119,7 +119,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        DB.COURSE.deleteCourse({
+        DB.COURSE.delete({
           'parameter': row.courseName
         }).then(
           re => {
@@ -142,7 +142,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-        DB.COURSE.addCourse({
+        DB.COURSE.add({
           'courseName': value
         }).then(
           re => {

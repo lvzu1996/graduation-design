@@ -22,6 +22,7 @@ public class ResponseEntity {
      *  ****************************
      *  3000x ----- /api/class
      *  30001 insert fail
+     *  30002 update fail
      */
     private String msg;
     private Object data;

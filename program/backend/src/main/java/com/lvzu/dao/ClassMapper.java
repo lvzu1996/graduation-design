@@ -19,8 +19,8 @@ public interface ClassMapper {
     @Insert("INSERT INTO class(className,courseId,courseName,classStartTime,classEndTime) VALUES(#{className},#{courseId},#{courseName},#{classStartTime},#{classEndTime})")
     Integer insert(ClassEntity aclass);
 
-    @Update("Update class set classId =#{aclass.classId},className=#{aclass.className},courseId=#{aclass.courseId},courseName=#{aclass.courseName},classStartTime=#{aclass.classStartTime},classEndTime=#{aclass.classEndTime} WHERE classId =#{id}")
-    void update(@Param("id") Integer id, @Param("aclass") ClassEntity aclass);
+    @Update("Update class set className=#{classEntity.className},courseId=#{classEntity.courseId},courseName=#{classEntity.courseName},classStartTime=#{classEntity.classStartTime},classEndTime=#{classEntity.classEndTime} WHERE classId =#{id}")
+    Integer update(@Param("id") Integer id, @Param("classEntity") ClassEntity classEntity);
 
     @Delete("DELETE FROM class WHERE classId =#{id}")
     void delete(Integer id);

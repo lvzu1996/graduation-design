@@ -100,9 +100,9 @@
   </div>
 
   <el-dialog title="修改课程信息" :visible.sync="dialogFormVisible">
-     <el-form :model="reviceClass" label-position="right">
+     <el-form :model="revClass">
         <el-form-item label="课程名称" label-width="120px">
-          <el-select v-model="reviceClass.courseId" filterable placeholder="请选择课程" >
+          <el-select v-model="revClass.courseId" filterable placeholder="请选择课程" style="width:50%;">
             <el-option
               v-for="(item,index) in courseListData"
               :key="index"
@@ -112,21 +112,22 @@
           </el-select>
         </el-form-item>
         <el-form-item label="班级名称" label-width="120px">
-          <el-input v-model="reviceClass.className" auto-complete="off"></el-input>
+          <el-input v-model="revClass.className" auto-complete="off" style="width:50%;"></el-input>
         </el-form-item>
         <el-form-item label="起止时间" label-width="120px">
           <el-date-picker
-            v-model="reviceClass.classDateRange"
+            v-model="revClass.classDateRange"
             type="daterange"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-            :default-value="reviceClass.classStartTime">
+            :default-value="revClass.classStartTime"
+            :picker-options="dateRangePickerOptions">
           </el-date-picker>
         </el-form-item>
      </el-form>
         <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="reviceClass">确 定</el-button>
       </div>
   </el-dialog>
 </div>
@@ -165,7 +166,7 @@ export default {
       },
       now: new Date(),
       dialogFormVisible: false,
-      reviceClass: {
+      revClass: {
 
       },
       dateRangePickerOptions: {
@@ -200,9 +201,9 @@ export default {
   computed: {
     dialogFormData () {
       return {
-        courseName: this.reviceClass.courseName,
-        className: this.reviceClass.className,
-        classDateRange: [this.reviceClass.classStartTime, this.reviceClass.classEndTime]
+        courseName: this.revClass.courseName,
+        className: this.revClass.className,
+        classDateRange: [this.revClass.classStartTime, this.revClass.classEndTime]
       }
     },
     newClassFormData () {
@@ -215,10 +216,11 @@ export default {
     },
     reviceClassFormData () {
       return {
-        courseId: this.reviceClass.courseId,
-        className: this.reviceClass.className,
-        classStartTime: this.reviceClass.classDateRange[0],
-        classEndTime: this.reviceClass.classDateRange[1]
+        classId: this.revClass.classId,
+        courseId: this.revClass.courseId,
+        className: this.revClass.className,
+        classStartTime: this.revClass.classDateRange[0],
+        classEndTime: this.revClass.classDateRange[1]
       }
     }
   },
@@ -232,7 +234,7 @@ export default {
     },
     getClassList () {
       const _this = this
-      DB.CLASS.getClasses({}).then(
+      DB.CLASS.get({}).then(
         re => {
           _this.classListData = re
         },
@@ -242,7 +244,7 @@ export default {
     },
     getCourseList () {
       const _this = this
-      DB.COURSE.getCourses({}).then(
+      DB.COURSE.get({}).then(
       re => {
         _this.courseListData = re
       },
@@ -253,34 +255,64 @@ export default {
     },
     createClass () {
       const _this = this
-      console.log(_this.newClass)
-      // if (!_this._varifyCreateForm()) {
-      //   return
-      // }
-      // DB.CLASS.createClass(_this.newClassFormData).then(
-      //   re => {
-      //     _this.getClassList()
-      //   },
-      //   re => { console.log(re) }
-      // )
+      if (!_this._varifyCreateForm(1)) {
+        return
+      }
+      DB.CLASS.create(_this.newClassFormData).then(
+        re => {
+          _this.getClassList()
+        },
+        re => { console.log(re) }
+      )
     },
-    _varifyCreateForm () {
-      if (this.newClassFormData.courseId === '') {
-        this.$message.error('请选择课程!')
-        return false
+    reviceClass () {
+      const _this = this
+      if (!_this._varifyCreateForm(2)) {
+        return
       }
-      if (this.newClassFormData.className === '') {
-        this.$message.error('请输入班级名!')
-        return false
-      }
-      if (this.newClassFormData.classStartTime === '' || this.newClassFormData.classEndTime === '') {
-        this.$message.error('请选择正确的时间!')
-        return false
+      DB.CLASS.revice(_this.reviceClassFormData).then(
+        re => {
+          _this.getClassList()
+        },
+        re => {
+          console.log(re)
+        }
+      )
+    },
+    _varifyCreateForm (type) {
+      if (type === 1) {
+        if (this.newClassFormData.courseId === '') {
+          this.$message.error('请选择课程!')
+          return false
+        }
+        if (this.newClassFormData.className === '') {
+          this.$message.error('请输入班级名!')
+          return false
+        }
+        if (this.newClassFormData.classStartTime === '' || this.newClassFormData.classEndTime === '') {
+          this.$message.error('请选择正确的时间!')
+          return false
+        }
+      } else {
+        if (this.reviceClassFormData.courseId === '') {
+          this.$message.error('请选择课程!')
+          return false
+        }
+        if (this.reviceClassFormData.className === '') {
+          this.$message.error('请输入班级名!')
+          return false
+        }
+        if (this.reviceClassFormData.classStartTime === '' || this.reviceClassFormData.classEndTime === '') {
+          console.log(this.revClass)
+          console.log(this.reviceClassFormData.classStartTime)
+          this.$message.error('请选择正确的时间!')
+          return false
+        }
       }
       return true
     },
     handleEdit (index, row) {
-      this.reviceClass = this.classListData[index]
+      this.revClass = this.classListData[index]
       this.dialogFormVisible = true
     },
     handleDelete (index, row) {

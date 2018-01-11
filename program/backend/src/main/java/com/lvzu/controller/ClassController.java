@@ -60,11 +60,25 @@ public class ClassController {
         return responseEntity;
     }
 
-    @RequestMapping(value ="/revice/{id}", method = RequestMethod.PUT)
-    public ClassEntity Revice(@PathVariable("id") Integer id,@RequestBody ClassEntity aClass) {
-        classMapper.update(id,aClass);
-        return aClass;
+    @RequestMapping(value ="/api/classes", method = RequestMethod.PATCH)
+    public ResponseEntity Revice(@RequestBody Map<String, String> requestData) {
+        responseEntity = new ResponseEntity();
+        Integer classId = Integer.valueOf(requestData.get("classId"));
+        String className = requestData.get("className");
+        Integer courseId = Integer.valueOf(requestData.get("courseId"));
+        String courseName = courseService.getCourceNameById(courseId);
+        Date classStartTime = commonUtil.StringToDate(requestData.get("classStartTime"));
+        Date classEndTime = commonUtil.StringToDate(requestData.get("classEndTime"));
+        ClassEntity classEntity = new ClassEntity(className,courseId,courseName,classStartTime,classEndTime);
+        Integer influenced = classMapper.update(classId,classEntity);
+        if(influenced == 1){
+            responseEntity = responseEntity.success();
+        }else {
+            responseEntity = responseEntity.fail(30002);
+        }
+        return responseEntity;
     }
+
 
     @RequestMapping(value ="/delete/{id}", method = RequestMethod.DELETE)
     public void Delete(@PathVariable("id") Integer id) {
