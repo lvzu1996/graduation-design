@@ -7,7 +7,7 @@
     :data="classListData"
     style="width: 100%">
     <el-table-column
-      label="课程名"
+      label="课程名称"
       width="300">
       <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
@@ -63,7 +63,7 @@
 
   <div id="create-class">
     <el-form label-position="right" :inline="true" label-width="80px" :model="newClass">
-    <el-form-item label="课程名">
+    <el-form-item label="课程名称">
       <el-select v-model="newClass.courseId" filterable placeholder="请选择课程" >
       <el-option
         v-for="(item,index) in courseListData"
@@ -76,13 +76,14 @@
     <el-form-item label="班级名">
       <el-input v-model="newClass.className"></el-input>
     </el-form-item>
-    <el-form-item label="起始日期">
+    <el-form-item label="起止日期">
     <el-date-picker
       v-model="newClass.classDateRange"
       type="daterange"
       placeholder="选择日期"
       value-format="yyyy-MM-dd"
-      :default-value="now">
+      :default-value="now"
+      :picker-options="dateRangePickerOptions">
     </el-date-picker>
     </el-form-item>
     <!-- <el-form-item label="结束日期">
@@ -97,6 +98,37 @@
   </el-form>
   </div>
   </div>
+
+  <el-dialog title="修改课程信息" :visible.sync="dialogFormVisible">
+     <el-form :model="reviceClass" label-position="right">
+        <el-form-item label="课程名称" label-width="120px">
+          <el-select v-model="reviceClass.courseId" filterable placeholder="请选择课程" >
+            <el-option
+              v-for="(item,index) in courseListData"
+              :key="index"
+              :label="item.courseName"
+              :value="item.courseId">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="班级名称" label-width="120px">
+          <el-input v-model="reviceClass.className" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="起止时间" label-width="120px">
+          <el-date-picker
+            v-model="reviceClass.classDateRange"
+            type="daterange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-value="reviceClass.classStartTime">
+          </el-date-picker>
+        </el-form-item>
+     </el-form>
+        <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+  </el-dialog>
 </div>
 
 </template>
@@ -131,16 +163,62 @@ export default {
         className: '',
         classDateRange: ['', '']
       },
-      now: new Date()
+      now: new Date(),
+      dialogFormVisible: false,
+      reviceClass: {
+
+      },
+      dateRangePickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      }
     }
   },
   computed: {
+    dialogFormData () {
+      return {
+        courseName: this.reviceClass.courseName,
+        className: this.reviceClass.className,
+        classDateRange: [this.reviceClass.classStartTime, this.reviceClass.classEndTime]
+      }
+    },
     newClassFormData () {
       return {
         courseId: this.newClass.courseId,
         className: this.newClass.className,
         classStartTime: this.newClass.classDateRange[0],
         classEndTime: this.newClass.classDateRange[1]
+      }
+    },
+    reviceClassFormData () {
+      return {
+        courseId: this.reviceClass.courseId,
+        className: this.reviceClass.className,
+        classStartTime: this.reviceClass.classDateRange[0],
+        classEndTime: this.reviceClass.classDateRange[1]
       }
     }
   },
@@ -202,7 +280,8 @@ export default {
       return true
     },
     handleEdit (index, row) {
-      console.log(index, row)
+      this.reviceClass = this.classListData[index]
+      this.dialogFormVisible = true
     },
     handleDelete (index, row) {
       console.log(index, row)
