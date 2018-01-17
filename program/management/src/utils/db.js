@@ -21,33 +21,33 @@ DBF.create('LOGIN', {
   }
 })
 DBF.create('COURSE', {
-  get: {
+  getCourse: {
     url: prefix + '/courses',
     method: 'GET'
   },
-  add: {
+  addCourse: {
     url: prefix + '/courses',
     method: 'POST'
   },
-  delete: {
+  deleteCourse: {
     url: prefix + '/courses',
     method: 'DELETE'
   },
-  revice: {
+  reviceCourse: {
     url: prefix + '/courses',
     method: 'PATCH'
   }
 })
 DBF.create('CLASS', {
-  get: {
+  getClass: {
     url: prefix + '/classes',
     method: 'GET'
   },
-  create: {
+  createClass: {
     url: prefix + '/classes',
     method: 'POST'
   },
-  revice: {
+  reviceClass: {
     url: prefix + '/classes',
     method: 'PATCH'
   }

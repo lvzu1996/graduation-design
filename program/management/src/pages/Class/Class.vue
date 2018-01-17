@@ -48,6 +48,11 @@
         {{ scope.row.classEndTime }}
       </template>
     </el-table-column>
+    <el-table-column
+        prop="classPrice"
+        label="价格"
+        width="100">
+      </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
@@ -59,6 +64,7 @@
           @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
+     
   </el-table>
 
   <div id="create-class">
@@ -76,6 +82,9 @@
     <el-form-item label="班级名">
       <el-input v-model="newClass.className"></el-input>
     </el-form-item>
+    <el-form-item label="价格">
+      <el-input v-model="newClass.classPrice"></el-input>
+    </el-form-item>
     <el-form-item label="起止日期">
     <el-date-picker
       v-model="newClass.classDateRange"
@@ -86,14 +95,6 @@
       :picker-options="dateRangePickerOptions">
     </el-date-picker>
     </el-form-item>
-    <!-- <el-form-item label="结束日期">
-    <el-date-picker
-      v-model="newClass.classEndTime"
-      type="date"
-      placeholder="选择日期"
-      value-format="yyyy-MM-dd">
-    </el-date-picker>
-    </el-form-item> -->
     <el-button @click="createClass">创建班级</el-button>
   </el-form>
   </div>
@@ -113,6 +114,9 @@
         </el-form-item>
         <el-form-item label="班级名称" label-width="120px">
           <el-input v-model="revClass.className" auto-complete="off" style="width:50%;"></el-input>
+        </el-form-item>
+         <el-form-item label="价格" label-width="120px">
+          <el-input v-model="revClass.classPrice" auto-complete="off" style="width:50%;"></el-input>
         </el-form-item>
         <el-form-item label="起止时间" label-width="120px">
           <el-date-picker
@@ -139,7 +143,9 @@
   *  3000x ----- /api/class
   *  30001 insert fail
   */
+
 import DB from '../../utils/db.js'
+
 const errorNumMap = {
   '30001': 'insert fail'
 }
@@ -153,7 +159,8 @@ export default {
         courseName: 'nihao',
         courseId: 11,
         classStartTime: '1996-01-16',
-        classEndTime: '1996-01-14'
+        classEndTime: '1996-01-14',
+        classPrice: 100
       }],
       courseListData: [{
         courseId: 1,
@@ -162,7 +169,8 @@ export default {
       newClass: {
         courseId: '',
         className: '',
-        classDateRange: ['', '']
+        classDateRange: ['', ''],
+        classPrice: 100
       },
       now: new Date(),
       dialogFormVisible: false,
@@ -211,7 +219,8 @@ export default {
         courseId: this.newClass.courseId,
         className: this.newClass.className,
         classStartTime: this.newClass.classDateRange[0],
-        classEndTime: this.newClass.classDateRange[1]
+        classEndTime: this.newClass.classDateRange[1],
+        classPrice: this.newClass.classPrice
       }
     },
     reviceClassFormData () {
@@ -220,7 +229,8 @@ export default {
         courseId: this.revClass.courseId,
         className: this.revClass.className,
         classStartTime: this.revClass.classDateRange[0],
-        classEndTime: this.revClass.classDateRange[1]
+        classEndTime: this.revClass.classDateRange[1],
+        classPrice: this.revClass.classPrice
       }
     }
   },
@@ -234,7 +244,7 @@ export default {
     },
     getClassList () {
       const _this = this
-      DB.CLASS.get({}).then(
+      DB.CLASS.getClass({}).then(
         re => {
           _this.classListData = re
         },
@@ -244,9 +254,10 @@ export default {
     },
     getCourseList () {
       const _this = this
-      DB.COURSE.get({}).then(
+      DB.COURSE.getCourse({}).then(
       re => {
         _this.courseListData = re
+        console.log(re)
       },
       re => {
         _this._handleError(re)
@@ -258,7 +269,7 @@ export default {
       if (!_this._varifyCreateForm(1)) {
         return
       }
-      DB.CLASS.create(_this.newClassFormData).then(
+      DB.CLASS.createClass(_this.newClassFormData).then(
         re => {
           _this.getClassList()
         },
@@ -270,9 +281,10 @@ export default {
       if (!_this._varifyCreateForm(2)) {
         return
       }
-      DB.CLASS.revice(_this.reviceClassFormData).then(
+      DB.CLASS.reviceClass(_this.reviceClassFormData).then(
         re => {
           _this.getClassList()
+          _this.dialogFormVisible = false
         },
         re => {
           console.log(re)
