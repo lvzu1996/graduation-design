@@ -13,9 +13,8 @@ import javax.annotation.Resource;
 public class Test {
 
     public static void main(String[] args) {
-        CourseService courseService = new CourseService();
-        String coursename = courseService.getCourceNameById(1);
-        System.out.println(coursename);
+
+        System.out.println(System.currentTimeMillis());
     }
     public static class TTEST{
         private CourseMapper courseMapper;

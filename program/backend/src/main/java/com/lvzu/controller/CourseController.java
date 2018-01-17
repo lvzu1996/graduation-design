@@ -36,8 +36,8 @@ public class CourseController {
         responseEntity = new ResponseEntity();
         String courseName = requestData.get("courseName");
         if(courseMapper.exist(courseName)==null){
-            Integer influencedCount = courseMapper.insert(courseName);
-            if(influencedCount == 1){
+            Integer influenced = courseMapper.insert(courseName);
+            if(influenced == 1){
                 responseEntity = responseEntity.success();
             }else{
                 responseEntity = responseEntity.fail(10002);

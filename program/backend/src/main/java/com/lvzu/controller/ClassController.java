@@ -46,11 +46,12 @@ public class ClassController {
     public ResponseEntity AddOne(@RequestBody Map<String, String> requestData) {
         responseEntity = new ResponseEntity();
         Integer courseId = Integer.valueOf(requestData.get("courseId"));
+        Integer classPrice = Integer.valueOf(requestData.get("classPrice"));
         String className = requestData.get("className");
         Date classStartTime = commonUtil.StringToDate(requestData.get("classStartTime"));
         Date classEndTime = commonUtil.StringToDate(requestData.get("classEndTime"));
         String courseName = courseService.getCourceNameById(courseId);
-        ClassEntity classEntity = new ClassEntity(className,courseId,courseName,classStartTime,classEndTime);
+        ClassEntity classEntity = new ClassEntity(className,courseId,courseName,classStartTime,classEndTime,classPrice);
         Integer influenced = classMapper.insert(classEntity);
         if(influenced == 1){
             responseEntity = responseEntity.success();
@@ -64,12 +65,13 @@ public class ClassController {
     public ResponseEntity Revice(@RequestBody Map<String, String> requestData) {
         responseEntity = new ResponseEntity();
         Integer classId = Integer.valueOf(requestData.get("classId"));
+        Integer classPrice = Integer.valueOf(requestData.get("classPrice"));
         String className = requestData.get("className");
         Integer courseId = Integer.valueOf(requestData.get("courseId"));
         String courseName = courseService.getCourceNameById(courseId);
         Date classStartTime = commonUtil.StringToDate(requestData.get("classStartTime"));
         Date classEndTime = commonUtil.StringToDate(requestData.get("classEndTime"));
-        ClassEntity classEntity = new ClassEntity(className,courseId,courseName,classStartTime,classEndTime);
+        ClassEntity classEntity = new ClassEntity(className,courseId,courseName,classStartTime,classEndTime,classPrice);
         Integer influenced = classMapper.update(classId,classEntity);
         if(influenced == 1){
             responseEntity = responseEntity.success();

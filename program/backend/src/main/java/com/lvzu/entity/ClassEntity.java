@@ -1,6 +1,7 @@
 package com.lvzu.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
@@ -14,9 +15,37 @@ public class ClassEntity implements Serializable {
     private String courseName;
     private Date classStartTime;
     private Date classEndTime;
+    private Integer classPrice;
+
+    public Integer getClassPrice() {
+        return classPrice;
+    }
+
+    public void setClassPrice(Integer classPrice) {
+        this.classPrice = classPrice;
+    }
+
+    public ClassEntity(String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime, Integer classPrice) {
+        this.className = className;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.classStartTime = classStartTime;
+        this.classEndTime = classEndTime;
+        this.classPrice = classPrice;
+    }
+
 
     public ClassEntity(){
         super();
+    }
+
+    public ClassEntity(Integer classPrice, Integer courseId, String courseName, Date classStartTime, Date classEndTime, String className) {
+        this.classPrice = classPrice;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.classStartTime = classStartTime;
+        this.classEndTime = classEndTime;
+        this.className = className;
     }
 
     public ClassEntity(Integer classId, String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime) {
