@@ -62,8 +62,8 @@ DBF.create('GROUP', {
     url: prefix + '/groups',
     method: 'POST'
   },
-  reviceGroup: {
-    url: prefix + '/groups',
+  reviceGroupDetail: {
+    url: prefix + '/groups/groupDetail',
     method: 'PATCH'
   }
 })

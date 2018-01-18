@@ -61,6 +61,8 @@ function Request (config, body) {
         method: 'PATCH',
         body: JSON.stringify(body)
       })
+      // console.log(url);
+      // console.log(JSON.stringify(body))
     }
 
   return new Promise((resolve, reject) => {

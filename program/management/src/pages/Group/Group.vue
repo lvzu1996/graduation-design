@@ -1,8 +1,10 @@
 <template>
   <div id="group-body">
+    <!-- 新建拼团按钮 -->
     <div id="group-new-group-button">
-      <el-button  type="primary" plain style="width:200px;" @click="_showNewGroupForm">新建团购</el-button>
+      <el-button  type="primary" plain style="width:200px;" @click="showNewGroupForm = true">新建团购</el-button>
     </div>
+    <!-- 拼团列表显示 -->
     <div id="group-table">
       <el-table :data="groupListData" style="width: 100%">
         <el-table-column type="expand">
@@ -52,12 +54,13 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" @click="_handleEdit(scope.$index, scope.row)">编辑详情</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <!-- 新建拼团弹窗 -->
     <el-dialog title="新建拼团" :visible.sync="showNewGroupForm">
       <el-form ref="form" :model="newGroupForm" label-width="80px" style="text-align:left;width:50%;margin-left:30%;">
         <el-form-item label="拼团班级">
@@ -96,6 +99,15 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <!-- 拼团介绍详情编辑 -->
+    <el-dialog
+      title="提示"
+      :visible.sync="showDetailPreview"
+      width="80%">
+       <vue-editor v-model="groupDetailContent"></vue-editor>
+        <el-button type="primary" plain @click="groupDetailAddPic">添加图片</el-button>
+        <el-button type="success" plain @click="groupDetailSave">确定保存</el-button>
+    </el-dialog>
   </div>
 
 </template>
@@ -104,51 +116,17 @@
 
 <script>
 import DB from '../../utils/db.js'
+import { VueEditor } from 'vue2-editor'
+import groupListData from './groupListData'
 
 export default {
+  components: {
+    VueEditor
+  },
   data () {
     return {
       // 表格显示现有group 数据
-      groupListData: [{
-        groupName: 'xixixhahah',
-        groupId: 'xixixihahah',
-        className: 'xixixihaha',
-        classPrice: 100,
-        classId: 'xixixihaha',
-        groupCount: '10',
-        groupType: '1',
-        groupFavourablePrice: '100',
-        groupPayCount: '99',
-        groupStartTime: '2017-10-10',
-        groupEndTime: '2018-01-19',
-        isEnd: '1'
-      }, {
-        groupName: 'xixixhahah',
-        groupId: 'xixixihahah',
-        className: 'xixixihaha',
-        classPrice: 100,
-        classId: 'xixixihaha',
-        groupCount: '10',
-        groupType: '1',
-        groupFavourablePrice: '100',
-        groupPayCount: '99',
-        groupStartTime: '2017-10-10',
-        groupEndTime: '2018-01-19',
-        isEnd: '1'
-      }, {
-        groupName: 'xixixhahah',
-        groupId: 'xixixihahah',
-        className: 'xixixihaha',
-        classPrice: 100,
-        classId: 'xixixihaha',
-        groupCount: '10',
-        groupType: '1',
-        groupFavourablePrice: '100',
-        groupPayCount: '99',
-        groupStartTime: '2017-10-10',
-        groupEndTime: '2018-01-19',
-        isEnd: '0'
-      }],
+      groupListData: groupListData,
       classDataList: [],
       showNewGroupForm: false,
       // 新建拼团弹窗form数据
@@ -163,6 +141,11 @@ export default {
         groupDateRange: ''
       },
       now: new Date(),
+      showDetailPreview: false,
+      // 弹窗编辑的dom html
+      groupDetailContent: '',
+      // 当前正在编辑的groupdetail 的id
+      groupDetailEditId: '',
       dateRangePickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -238,9 +221,38 @@ export default {
     filterTag (value, row) {
       return row.isEnd === value
     },
-    _showNewGroupForm () {
-      this.showNewGroupForm = true
+    _handleEdit (index, row) {
+      console.log(row.groupDetail)
+      this.groupDetailContent = row.groupDetail
+      this.groupDetailEditId = row.groupId
+      this.showDetailPreview = true
+    },
+    groupDetailAddPic () {
+      this.$prompt('请输入地址', '修改拼团详情', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        this.groupDetailContent += `<img src="${value}" alt="">`
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消添加'
+        })
+      })
+    },
+    groupDetailSave () {
+      const _this = this
+      console.log(this.groupDetailContent)
+      this.showDetailPreview = false
+      DB.COURSE.reviceGroupDetail({
+        groupId: _this.groupDetailEditId,
+        groupDetail: _this.groupDetailContent
+      }).then(
+        re => {},
+        re => {}
+      )
     }
+
   }
 }
 </script>
