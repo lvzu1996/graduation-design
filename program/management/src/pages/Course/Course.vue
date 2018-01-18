@@ -66,7 +66,7 @@ const errorNumMap = {
 export default {
   data () {
     return {
-      courseListData: [],
+      courseListData: [{courseName: 'hahaha', courseId: 1}],
       courseAddName: ''
     }
   },

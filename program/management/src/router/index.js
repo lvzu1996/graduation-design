@@ -7,6 +7,7 @@ const Class = () => import('@/pages/Class/Class')
 const Group = () => import('@/pages/Group/Group')
 const Customer = () => import('@/pages/Customer/Customer')
 const Analyse = () => import('@/pages/Analyse/Analyse')
+const Test = () => import('@/pages/Test/Test')
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
       path: '/analyse',
       name: 'Analyse',
       component: Analyse
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test
     }
   ]
 })

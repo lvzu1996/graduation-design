@@ -52,3 +52,18 @@ DBF.create('CLASS', {
     method: 'PATCH'
   }
 })
+
+DBF.create('GROUP', {
+  getGroup: {
+    url: prefix + '/groups',
+    method: 'GET'
+  },
+  createGroup: {
+    url: prefix + '/groups',
+    method: 'POST'
+  },
+  reviceGroup: {
+    url: prefix + '/groups',
+    method: 'PATCH'
+  }
+})

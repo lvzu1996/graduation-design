@@ -1,0 +1,25 @@
+.el-dialog{
+    width: 600px !important;
+}
+
+.demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+
+  #group-table{
+      margin: 10px 10px;
+      border: 1px solid #e6e3e3;
+  }
+
+  #group-new-group-button{
+      margin:10px 10px;
+  }
