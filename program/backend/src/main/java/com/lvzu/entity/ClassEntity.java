@@ -16,54 +16,7 @@ public class ClassEntity implements Serializable {
     private Date classStartTime;
     private Date classEndTime;
     private Integer classPrice;
-    private Integer classTotalCount;
     private Integer classRegisteredCount;
-
-    public ClassEntity(String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime, Integer classPrice, Integer classTotalCount) {
-        this.className = className;
-        this.courseId = courseId;
-        this.courseName = courseName;
-        this.classStartTime = classStartTime;
-        this.classEndTime = classEndTime;
-        this.classPrice = classPrice;
-        this.classTotalCount = classTotalCount;
-    }
-
-    public Integer getClassTotalCount() {
-        return classTotalCount;
-    }
-
-    public void setClassTotalCount(Integer classTotalCount) {
-        this.classTotalCount = classTotalCount;
-    }
-
-    public Integer getClassRegisteredCount() {
-        return classRegisteredCount;
-    }
-
-    public void setClassRegisteredCount(Integer classRegisteredCount) {
-        this.classRegisteredCount = classRegisteredCount;
-    }
-
-    public ClassEntity(Integer classId, String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime, Integer classPrice, Integer classTotalCount, Integer classRegisteredCount) {
-        this.classId = classId;
-        this.className = className;
-        this.courseId = courseId;
-        this.courseName = courseName;
-        this.classStartTime = classStartTime;
-        this.classEndTime = classEndTime;
-        this.classPrice = classPrice;
-        this.classTotalCount = classTotalCount;
-        this.classRegisteredCount = classRegisteredCount;
-    }
-
-    public Integer getClassPrice() {
-        return classPrice;
-    }
-
-    public void setClassPrice(Integer classPrice) {
-        this.classPrice = classPrice;
-    }
 
     public ClassEntity(String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime, Integer classPrice) {
         this.className = className;
@@ -74,83 +27,90 @@ public class ClassEntity implements Serializable {
         this.classPrice = classPrice;
     }
 
-
-    public ClassEntity(){
-        super();
-    }
-
-    public ClassEntity(Integer classPrice, Integer courseId, String courseName, Date classStartTime, Date classEndTime, String className) {
-        this.classPrice = classPrice;
+    public ClassEntity(String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime, Integer classPrice, Integer classRegisteredCount) {
+        this.className = className;
         this.courseId = courseId;
         this.courseName = courseName;
         this.classStartTime = classStartTime;
         this.classEndTime = classEndTime;
-        this.className = className;
+        this.classPrice = classPrice;
+        this.classRegisteredCount = classRegisteredCount;
     }
 
-    public ClassEntity(Integer classId, String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime) {
+    public ClassEntity(Integer classId, String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime, Integer classPrice, Integer classRegisteredCount) {
+
         this.classId = classId;
         this.className = className;
         this.courseId = courseId;
         this.courseName = courseName;
         this.classStartTime = classStartTime;
         this.classEndTime = classEndTime;
-    }
-
-    public ClassEntity(String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime) {
-        this.className = className;
-        this.courseId = courseId;
-        this.courseName = courseName;
-        this.classStartTime = classStartTime;
-        this.classEndTime = classEndTime;
-    }
-
-    public String getClassName() {
-        return className;
+        this.classPrice = classPrice;
+        this.classRegisteredCount = classRegisteredCount;
     }
 
     public Integer getClassId() {
+
         return classId;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public Date getClassStartTime() {
-        return classStartTime;
-    }
-
-    public Date getClassEndTime() {
-        return classEndTime;
-    }
-
-    public void setClassName(String className) {
-
-        this.className = className;
     }
 
     public void setClassId(Integer classId) {
         this.classId = classId;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public Integer getCourseId() {
+        return courseId;
     }
 
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public Date getClassStartTime() {
+        return classStartTime;
+    }
+
     public void setClassStartTime(Date classStartTime) {
         this.classStartTime = classStartTime;
     }
 
+    public Date getClassEndTime() {
+        return classEndTime;
+    }
+
     public void setClassEndTime(Date classEndTime) {
         this.classEndTime = classEndTime;
+    }
+
+    public Integer getClassPrice() {
+        return classPrice;
+    }
+
+    public void setClassPrice(Integer classPrice) {
+        this.classPrice = classPrice;
+    }
+
+    public Integer getClassRegisteredCount() {
+        return classRegisteredCount;
+    }
+
+    public void setClassRegisteredCount(Integer classRegisteredCount) {
+        this.classRegisteredCount = classRegisteredCount;
     }
 }

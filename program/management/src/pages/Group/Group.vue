@@ -54,7 +54,7 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="_handleEdit(scope.$index, scope.row)">编辑详情</el-button>
+            <el-button size="mini" @click="_handleEdit(scope.$index, scope.row)">编辑拼团详情</el-button>
             <el-button size="mini" type="danger" @click="_handleSetEnd(scope.$index, scope.row)">结束拼团</el-button>
           </template>
         </el-table-column>
@@ -69,10 +69,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="拼团名称">
-          <el-input v-model="newGroupForm.groupName" suffix-icon="el-icon-edit-outline" style="width:50%;"></el-input>
+          <el-input v-model="newGroupForm.groupName" suffix-icon="el-icon-edit-outline" style="width:50%;" clearable></el-input>
         </el-form-item>
         <el-form-item label="拼团人数">
-          <el-input v-model="newGroupForm.groupCount" suffix-icon="el-icon-share" style="width:50%;"></el-input>
+          <el-input v-model="newGroupForm.groupCount" suffix-icon="el-icon-share" style="width:50%;" clearable></el-input>
         </el-form-item>
         <el-form-item label="拼团种类">
           <el-radio-group v-model="newGroupForm.groupType">
@@ -81,8 +81,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="优惠价格" v-if="newGroupForm.groupType == 1">
-          <el-input v-model="newGroupForm.groupFavourablePrice" style="width:50%;"></el-input>
-          <span>原价98</span>
+          <el-input v-model="newGroupForm.groupFavourablePrice" style="width:50%;" clearable></el-input>
+          <el-tag type="primary" style="margin-left:5px" v-if="newGroupForm.classId">班级原价:{{_getClassInfoById(newGroupForm.classId,'classPrice')}}</el-tag>
         </el-form-item>
         <el-form-item label="需付人数" v-if="newGroupForm.groupType==2 && newGroupForm.groupCount!=''">
           <el-select v-model="newGroupForm.groupPayCount" placeholder="请选择满团付款人数">
@@ -183,8 +183,8 @@ export default {
         groupName: this.newGroupForm.groupName,
         groupCount: this.newGroupForm.groupCount,
         groupType: this.newGroupForm.groupType,
-        className: this._getClassNameAndPriceById(this.newGroupForm.classId)[0],
-        classPrice: this._getClassNameAndPriceById(this.newGroupForm.classId)[1],
+        className: this._getClassInfoById(this.newGroupForm.classId, 'className'),
+        classPrice: this._getClassInfoById(this.newGroupForm.classId, 'classPrice'),
         classId: this.newGroupForm.classId,
         groupFavourablePrice: this.newGroupForm.groupFavourablePrice || 0,
         groupPayCount: this.newGroupForm.groupPayCount || 0,
@@ -199,22 +199,34 @@ export default {
   },
   methods: {
     // return Array[2] Array[0] = className,Array[1] = classPrice
-    _getClassNameAndPriceById (classId) {
+    _getClassInfoById (classId, infoName) {
       for (let i of this.classDataList) {
         if (i.classId === classId) {
-          return [i.className, i.classPrice]
+          return i[infoName]
         }
       }
-      return 'null'
     },
     _cancelCreateNewGroup () {
       this.showNewGroupForm = false
     },
     _submitNewGroupForm () {
+      const _this = this
       console.log(this.newGroupPostData)
       DB.GROUP.createGroup(this.newGroupPostData).then(
-        re => {},
-        re => {}
+        re => {
+          this.$message({
+            type: 'success',
+            message: '创建拼团成功！'
+          })
+          _this._getGroupDataList()
+          _this.showNewGroupForm = false
+        },
+        re => {
+          this.$message({
+            type: 'error',
+            message: re
+          })
+        }
       )
     },
     _getGroupDataList () {
@@ -240,36 +252,36 @@ export default {
       this.groupDetailEditId = row.groupId
       this.showDetailPreview = true
     },
-    _handleSetEnd (index, row){
+    _handleSetEnd (index, row) {
       const _this = this
       this.$confirm('此操作将永久结束该拼团, 是否继续?', '警告', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'error'
-        }).then(() => {
-          DB.COURSE.groupSetEnd({
-            groupId: row.groupId
-          }).then(
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'error'
+      }).then(() => {
+        DB.COURSE.groupSetEnd({
+          groupId: row.groupId
+        }).then(
             re => {
               _this.$message({
                 type: 'success',
                 message: '结班成功!'
-              });
+              })
               _this._getGroupDataList()
             },
             re => {
               _this.$message({
                 type: 'error',
                 message: re
-              });
+              })
             }
           )
-        }).catch(() => {
-          _this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
+      }).catch(() => {
+        _this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     },
     groupDetailAddPic () {
       this.$prompt('请输入地址', '修改拼团详情', {

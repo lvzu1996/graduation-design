@@ -54,11 +54,6 @@
         width="100">
       </el-table-column>
     <el-table-column
-        prop="classTotalCount"
-        label="总容量"
-        width="100">
-      </el-table-column>
-    <el-table-column
         prop="classRegisteredCount"
         label="已报人数"
         width="100">
@@ -67,7 +62,7 @@
       <template slot-scope="scope">
         <el-button
           size="mini"
-          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          @click="handleEdit(scope.$index, scope.row)" >编辑</el-button>
         <el-button
           size="mini"
           type="danger"
@@ -94,9 +89,6 @@
     </el-form-item>
     <el-form-item label="价格" placeholder="请输入价格">
       <el-input v-model="newClass.classPrice"></el-input>
-    </el-form-item>
-    <el-form-item label="班级容量" placeholder="请输入班级总容量">
-      <el-input v-model="newClass.classTotalCount"></el-input>
     </el-form-item>
     <el-form-item label="起止日期">
     <el-date-picker
@@ -183,8 +175,7 @@ export default {
         courseId: '',
         className: '',
         classDateRange: ['', ''],
-        classPrice: '',
-        classTotalCount:''
+        classPrice: ''
       },
       now: new Date(),
       dialogFormVisible: false,
@@ -197,7 +188,7 @@ export default {
           onClick (picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 7)
             picker.$emit('pick', [start, end])
           }
         }, {
@@ -205,7 +196,7 @@ export default {
           onClick (picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 30)
             picker.$emit('pick', [start, end])
           }
         }, {
@@ -213,7 +204,7 @@ export default {
           onClick (picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 90)
             picker.$emit('pick', [start, end])
           }
         }]
@@ -234,8 +225,7 @@ export default {
         className: this.newClass.className,
         classStartTime: this.newClass.classDateRange[0],
         classEndTime: this.newClass.classDateRange[1],
-        classPrice: this.newClass.classPrice,
-        classTotalCount:this.newClass.classTotalCount
+        classPrice: this.newClass.classPrice
       }
     },
     reviceClassFormData () {

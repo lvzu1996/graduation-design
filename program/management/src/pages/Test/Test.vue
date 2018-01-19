@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="success" plain @click="open">编辑</el-button>
+    <!-- <el-button type="success" plain @click="open">编辑</el-button>
     <el-dialog
       title="提示"
       :visible.sync="showDetailPreview"
@@ -9,27 +9,38 @@
         <el-button type="primary" plain @click="addPic">添加图片</el-button>
         <el-button type="success" plain @click="groupDetailSave">确定保存</el-button>
     </el-dialog>
-     <div v-html="content"></div>
+     <div v-html="content"></div> -->
+     
   </div>
 </template>
 
 <script>
 import { VueEditor } from 'vue2-editor'
-console.log(VueEditor)
 export default {
   data () {
     return {
       content: '<img src="http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/1.jpg" alt="">',
       showDetailPreview: true,
-      groupDetail: '<p><img src="http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/1.jpg" alt="">哈哈哈哈啊</p><p><img src="http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/%E4%B8%8B%E8%BD%BD.png" alt=""></p> '
+      groupDetail: '<p><img src="http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/1.jpg" alt="">哈哈哈哈啊</p><p><img src="http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/%E4%B8%8B%E8%BD%BD.png" alt=""></p> ',
+      datalist: {
+        'haha': {
+          'a': 1
+        },
+        'xixi': {
+          'b': 2
+        }
+      }
     }
   },
   components: {
     VueEditor
   },
+  created () {
+    delete (this.datalist['haha'])
+    console.log(this.datalist)
+  },
   methods: {
     groupDetailSave () {
-      console.log(this.content)
       this.dialogVisible = false
     },
     open () {
