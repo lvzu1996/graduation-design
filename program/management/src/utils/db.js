@@ -65,5 +65,14 @@ DBF.create('GROUP', {
   reviceGroupDetail: {
     url: prefix + '/groups/groupDetail',
     method: 'PATCH'
+  },
+  groupSetEnd: {
+    url: prefix + '/groups/groupSetEnd',
+    method: 'PATCH'
+  },
+  deleteGroup: {
+    url: prefix + '/groups',
+    method: 'DELETE'
   }
+
 })

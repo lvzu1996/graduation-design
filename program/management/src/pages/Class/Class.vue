@@ -53,6 +53,16 @@
         label="价格"
         width="100">
       </el-table-column>
+    <el-table-column
+        prop="classTotalCount"
+        label="总容量"
+        width="100">
+      </el-table-column>
+    <el-table-column
+        prop="classRegisteredCount"
+        label="已报人数"
+        width="100">
+      </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
@@ -79,11 +89,14 @@
       </el-option>
     </el-select>
     </el-form-item>
-    <el-form-item label="班级名">
+    <el-form-item label="班级名" placeholder="请输入班级名" >
       <el-input v-model="newClass.className"></el-input>
     </el-form-item>
-    <el-form-item label="价格">
+    <el-form-item label="价格" placeholder="请输入价格">
       <el-input v-model="newClass.classPrice"></el-input>
+    </el-form-item>
+    <el-form-item label="班级容量" placeholder="请输入班级总容量">
+      <el-input v-model="newClass.classTotalCount"></el-input>
     </el-form-item>
     <el-form-item label="起止日期">
     <el-date-picker
@@ -170,7 +183,8 @@ export default {
         courseId: '',
         className: '',
         classDateRange: ['', ''],
-        classPrice: 100
+        classPrice: '',
+        classTotalCount:''
       },
       now: new Date(),
       dialogFormVisible: false,
@@ -220,7 +234,8 @@ export default {
         className: this.newClass.className,
         classStartTime: this.newClass.classDateRange[0],
         classEndTime: this.newClass.classDateRange[1],
-        classPrice: this.newClass.classPrice
+        classPrice: this.newClass.classPrice,
+        classTotalCount:this.newClass.classTotalCount
       }
     },
     reviceClassFormData () {

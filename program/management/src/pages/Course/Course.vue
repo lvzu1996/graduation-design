@@ -1,5 +1,9 @@
 <template>
 <div id="course-father">
+   <div id="new-course-button">
+      <el-button  type="primary" plain style="width:200px;" @click="handleAdd">新建课程</el-button>
+    </div>
+     <div id="course-table">
   <el-table
     :data="courseListData"
     style="width: 100%">
@@ -25,13 +29,10 @@
           size="mini"
           type="danger"
           @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        <el-button
-        size="mini"
-        type="success"
-        @click="handleAdd(scope.$index, scope.row)">新增</el-button>
       </template>
     </el-table-column>
   </el-table>
+     </div>
   <!-- <div id="course-add">
     <el-input v-model="courseAddName" placeholder="添加课程" prefix-icon='el-icon-edit' id="course-add-input"></el-input>
     <el-button type="success" >成功按钮</el-button>
@@ -90,7 +91,7 @@ export default {
     },
     handleEdit (index, row) {
       const _this = this
-      this.$prompt('请输入修改后的新课程名', '提示', {
+      this.$prompt('请输入修改后的课程名', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {

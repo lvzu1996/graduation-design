@@ -1,3 +1,5 @@
+// eslint-disable-next-line
+
 // https://eslint.org/docs/user-guide/configuring
 
 module.exports = {

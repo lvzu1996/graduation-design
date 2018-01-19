@@ -16,6 +16,46 @@ public class ClassEntity implements Serializable {
     private Date classStartTime;
     private Date classEndTime;
     private Integer classPrice;
+    private Integer classTotalCount;
+    private Integer classRegisteredCount;
+
+    public ClassEntity(String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime, Integer classPrice, Integer classTotalCount) {
+        this.className = className;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.classStartTime = classStartTime;
+        this.classEndTime = classEndTime;
+        this.classPrice = classPrice;
+        this.classTotalCount = classTotalCount;
+    }
+
+    public Integer getClassTotalCount() {
+        return classTotalCount;
+    }
+
+    public void setClassTotalCount(Integer classTotalCount) {
+        this.classTotalCount = classTotalCount;
+    }
+
+    public Integer getClassRegisteredCount() {
+        return classRegisteredCount;
+    }
+
+    public void setClassRegisteredCount(Integer classRegisteredCount) {
+        this.classRegisteredCount = classRegisteredCount;
+    }
+
+    public ClassEntity(Integer classId, String className, Integer courseId, String courseName, Date classStartTime, Date classEndTime, Integer classPrice, Integer classTotalCount, Integer classRegisteredCount) {
+        this.classId = classId;
+        this.className = className;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.classStartTime = classStartTime;
+        this.classEndTime = classEndTime;
+        this.classPrice = classPrice;
+        this.classTotalCount = classTotalCount;
+        this.classRegisteredCount = classRegisteredCount;
+    }
 
     public Integer getClassPrice() {
         return classPrice;

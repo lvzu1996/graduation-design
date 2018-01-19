@@ -6,10 +6,7 @@ import com.lvzu.dao.GroupMapper;
 import com.lvzu.entity.CourseEntity;
 import com.lvzu.entity.GroupEntity;
 import com.lvzu.entity.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.acl.Group;
@@ -44,11 +41,11 @@ public class GroupController {
             responseEntity = responseEntity.fail(40001);
             return responseEntity;
         }
-        if(groupRequest.getGroupType() == 101){
+        if(groupRequest.getGroupType() == 1){
             groupRequest.setGroupPayCount(0);
             GroupEntity groupEntity = new GroupEntity(groupRequest);
             influenced = groupMapper.insert(groupEntity);
-        }else if(groupRequest.getGroupType() == 102){
+        }else if(groupRequest.getGroupType() == 2){
             groupRequest.setGroupFavourablePrice(0);
             GroupEntity groupEntity = new GroupEntity(groupRequest);
             influenced = groupMapper.insert(groupEntity);
@@ -61,14 +58,45 @@ public class GroupController {
         return responseEntity;
     }
 
-    @RequestMapping(value ="/api/groups", method = RequestMethod.PATCH)
-    public ResponseEntity Revice(@RequestBody GroupEntity groupEntity) {
+    @RequestMapping(value ="/api/groups/groupDetail", method = RequestMethod.PATCH)
+    public ResponseEntity ReviceDetail(@RequestBody Map<String, String> requestData) {
         responseEntity = new ResponseEntity();
-        Integer influenced = groupMapper.update(groupEntity);
+        Integer groupId = Integer.valueOf(requestData.get("groupId"));
+        String groupDetail = requestData.get("groupDetail");
+        Integer influenced = groupMapper.setDetail(groupId,groupDetail);
         if(influenced == 1){
             responseEntity = responseEntity.success();
-        }else {
-            responseEntity = responseEntity.fail(40002);
+        }else{
+            responseEntity = responseEntity.fail(40003);
+        }
+        return responseEntity;
+    }
+
+    @RequestMapping(value ="/api/groups/groupSetEnd", method = RequestMethod.PATCH)
+    public ResponseEntity SetEnd(@RequestBody Map<String, String> requestData) {
+        responseEntity = new ResponseEntity();
+        Integer groupId = Integer.valueOf(requestData.get("groupId"));
+        Integer influenced = groupMapper.setEnd(groupId);
+        if(influenced == 1){
+            responseEntity = responseEntity.success();
+        }else{
+            responseEntity = responseEntity.fail(40004);
+        }
+        return responseEntity;
+    }
+
+    @RequestMapping(value ="/api/groups/{groupId}", method = RequestMethod.DELETE)
+    public ResponseEntity Delete(@PathVariable("groupId") Integer groupId) {
+        responseEntity = new ResponseEntity();
+        if(groupMapper.existGroupID(groupId) != null){
+            Integer influenced = groupMapper.delete(groupId);
+            if(influenced == 1){
+                responseEntity = responseEntity.success();
+            }else{
+                responseEntity = responseEntity.fail(40005);
+            }
+        }else{
+            responseEntity = responseEntity.fail(40006);
         }
         return responseEntity;
     }

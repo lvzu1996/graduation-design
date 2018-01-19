@@ -19,6 +19,56 @@ public class GroupEntity {
     private Integer groupType;
     private Integer groupFavourablePrice;
     private Integer groupPayCount;
+    private String groupDetail;
+    private Byte groupIsEnd;
+
+    public GroupEntity(Integer groupId, Integer classId, Integer classPrice, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount, String groupDetail, Byte groupIsEnd) {
+        this.groupId = groupId;
+        this.classId = classId;
+        this.classPrice = classPrice;
+        this.groupName = groupName;
+        this.groupStartTime = groupStartTime;
+        this.groupEndTime = groupEndTime;
+        this.className = className;
+        this.groupCount = groupCount;
+        this.groupType = groupType;
+        this.groupFavourablePrice = groupFavourablePrice;
+        this.groupPayCount = groupPayCount;
+        this.groupDetail = groupDetail;
+        this.groupIsEnd = groupIsEnd;
+    }
+
+    public Byte getGroupIsEnd() {
+
+        return groupIsEnd;
+    }
+
+    public void setGroupIsEnd(Byte groupIsEnd) {
+        this.groupIsEnd = groupIsEnd;
+    }
+
+    public String getGroupDetail() {
+        return groupDetail;
+    }
+
+    public void setGroupDetail(String groupDetail) {
+        this.groupDetail = groupDetail;
+    }
+
+    public GroupEntity(Integer groupId, Integer classId, Integer classPrice, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount, String groupDetail) {
+        this.groupId = groupId;
+        this.classId = classId;
+        this.classPrice = classPrice;
+        this.groupName = groupName;
+        this.groupStartTime = groupStartTime;
+        this.groupEndTime = groupEndTime;
+        this.className = className;
+        this.groupCount = groupCount;
+        this.groupType = groupType;
+        this.groupFavourablePrice = groupFavourablePrice;
+        this.groupPayCount = groupPayCount;
+        this.groupDetail = groupDetail;
+    }
 
     public GroupEntity() {
     }

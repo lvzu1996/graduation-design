@@ -51,7 +51,8 @@ public class ClassController {
         Date classStartTime = commonUtil.StringToDate(requestData.get("classStartTime"));
         Date classEndTime = commonUtil.StringToDate(requestData.get("classEndTime"));
         String courseName = courseService.getCourceNameById(courseId);
-        ClassEntity classEntity = new ClassEntity(className,courseId,courseName,classStartTime,classEndTime,classPrice);
+        Integer classTotalCount = Integer.valueOf(requestData.get("classTotalCount"));
+        ClassEntity classEntity = new ClassEntity(className,courseId,courseName,classStartTime,classEndTime,classPrice,classTotalCount);
         Integer influenced = classMapper.insert(classEntity);
         if(influenced == 1){
             responseEntity = responseEntity.success();

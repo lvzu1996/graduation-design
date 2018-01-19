@@ -44,18 +44,18 @@
         </el-table-column>
         <el-table-column label="所属班级" prop="className">
         </el-table-column>
-        <el-table-column label="参团人数" prop="groupCount">
+        <el-table-column label="拼团总容量" prop="groupCount">
         </el-table-column>
-         <el-table-column prop="isEnd" label="是否结束" width="100" :filters="[{ text: '结束', value: '1' }, { text: '未结束', value: '0' }]" :filter-method="filterTag"
+         <el-table-column prop="groupIsEnd" label="是否结束" width="100" :filters="[{ text: '结束', value: '1' }, { text: '未结束', value: '0' }]" :filter-method="filterTag"
           filter-placement="bottom-end">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.isEnd == '0' ? 'success' : 'danger'" close-transition>{{scope.row.isEnd==0?'未结束':'结束'}}</el-tag>
+            <el-tag :type="scope.row.groupIsEnd == '0' ? 'success' : 'danger'" close-transition>{{scope.row.groupIsEnd==0?'未结束':'结束'}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="_handleEdit(scope.$index, scope.row)">编辑详情</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" type="danger" @click="_handleSetEnd(scope.$index, scope.row)">结束拼团</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -80,8 +80,9 @@
             <el-radio label="2">满团减人拼团</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="需付价格" v-if="newGroupForm.groupType == 1">
+        <el-form-item label="优惠价格" v-if="newGroupForm.groupType == 1">
           <el-input v-model="newGroupForm.groupFavourablePrice" style="width:50%;"></el-input>
+          <span>原价98</span>
         </el-form-item>
         <el-form-item label="需付人数" v-if="newGroupForm.groupType==2 && newGroupForm.groupCount!=''">
           <el-select v-model="newGroupForm.groupPayCount" placeholder="请选择满团付款人数">
@@ -105,6 +106,7 @@
       :visible.sync="showDetailPreview"
       width="80%">
        <vue-editor v-model="groupDetailContent"></vue-editor>
+       <div style="margin-top:20px"></div>
         <el-button type="primary" plain @click="groupDetailAddPic">添加图片</el-button>
         <el-button type="success" plain @click="groupDetailSave">确定保存</el-button>
     </el-dialog>
@@ -152,7 +154,7 @@ export default {
           onClick (picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 7)
             picker.$emit('pick', [start, end])
           }
         }, {
@@ -160,7 +162,7 @@ export default {
           onClick (picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 30)
             picker.$emit('pick', [start, end])
           }
         }, {
@@ -168,7 +170,7 @@ export default {
           onClick (picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 90)
             picker.$emit('pick', [start, end])
           }
         }]
@@ -181,7 +183,8 @@ export default {
         groupName: this.newGroupForm.groupName,
         groupCount: this.newGroupForm.groupCount,
         groupType: this.newGroupForm.groupType,
-        classname: this.newGroupForm.classname,
+        className: this._getClassNameAndPriceById(this.newGroupForm.classId)[0],
+        classPrice: this._getClassNameAndPriceById(this.newGroupForm.classId)[1],
         classId: this.newGroupForm.classId,
         groupFavourablePrice: this.newGroupForm.groupFavourablePrice || 0,
         groupPayCount: this.newGroupForm.groupPayCount || 0,
@@ -195,10 +198,20 @@ export default {
     this._getGroupDataList()
   },
   methods: {
+    // return Array[2] Array[0] = className,Array[1] = classPrice
+    _getClassNameAndPriceById (classId) {
+      for (let i of this.classDataList) {
+        if (i.classId === classId) {
+          return [i.className, i.classPrice]
+        }
+      }
+      return 'null'
+    },
     _cancelCreateNewGroup () {
       this.showNewGroupForm = false
     },
     _submitNewGroupForm () {
+      console.log(this.newGroupPostData)
       DB.GROUP.createGroup(this.newGroupPostData).then(
         re => {},
         re => {}
@@ -219,13 +232,44 @@ export default {
       )
     },
     filterTag (value, row) {
-      return row.isEnd === value
+      return row.groupIsEnd === value
     },
     _handleEdit (index, row) {
       console.log(row.groupDetail)
       this.groupDetailContent = row.groupDetail
       this.groupDetailEditId = row.groupId
       this.showDetailPreview = true
+    },
+    _handleSetEnd (index, row){
+      const _this = this
+      this.$confirm('此操作将永久结束该拼团, 是否继续?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'error'
+        }).then(() => {
+          DB.COURSE.groupSetEnd({
+            groupId: row.groupId
+          }).then(
+            re => {
+              _this.$message({
+                type: 'success',
+                message: '结班成功!'
+              });
+              _this._getGroupDataList()
+            },
+            re => {
+              _this.$message({
+                type: 'error',
+                message: re
+              });
+            }
+          )
+        }).catch(() => {
+          _this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     },
     groupDetailAddPic () {
       this.$prompt('请输入地址', '修改拼团详情', {

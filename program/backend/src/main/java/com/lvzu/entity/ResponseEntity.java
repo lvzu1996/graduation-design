@@ -23,7 +23,16 @@ public class ResponseEntity {
      *  3000x ----- /api/class
      *  30001 insert fail
      *  30002 update fail
+     *  ****************************
+     *  4000x ----- /api/group
+     *  40001 duplicated group name
+     *  40002 insert fail
+     *  40003 revice fail
+     *  40004 the course is already over or can not find group
+     *  40005 delete fail
+     *  40006 group not exist
      */
+
     private String msg;
     private Object data;
     private int error_num;
