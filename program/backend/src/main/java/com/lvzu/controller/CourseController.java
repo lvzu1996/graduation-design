@@ -70,11 +70,11 @@ public class CourseController {
         return responseEntity;
     }
 
-    @RequestMapping(value ="/api/courses/{courseName}", method = RequestMethod.DELETE)
-    public ResponseEntity Delete(@PathVariable("courseName") String courseName) {
+    @RequestMapping(value ="/api/courses/{courseId}", method = RequestMethod.DELETE)
+    public ResponseEntity Delete(@PathVariable("courseId") Integer courseId) {
         responseEntity = new ResponseEntity();
-        if(courseMapper.exist(courseName) != null){
-            Integer influenced = courseMapper.delete(courseName);
+        if(courseMapper.existId(courseId) != null){
+            Integer influenced = courseMapper.delete(courseId);
             if(influenced == 1){
                 responseEntity = responseEntity.success();
             }else{

@@ -16,6 +16,55 @@ public class GroupRequest {
     private Integer groupType;
     private Integer groupFavourablePrice;
     private Integer groupPayCount;
+    private String groupAvatarUrl;
+    private String groupIntro;
+
+    public GroupRequest(Integer classId, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer classPrice, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount, String groupAvatarUrl, String groupIntro) {
+        this.classId = classId;
+        this.groupName = groupName;
+        this.groupStartTime = groupStartTime;
+        this.groupEndTime = groupEndTime;
+        this.className = className;
+        this.classPrice = classPrice;
+        this.groupCount = groupCount;
+        this.groupType = groupType;
+        this.groupFavourablePrice = groupFavourablePrice;
+        this.groupPayCount = groupPayCount;
+        this.groupAvatarUrl = groupAvatarUrl;
+        this.groupIntro = groupIntro;
+    }
+
+    public String getGroupIntro() {
+
+        return groupIntro;
+    }
+
+    public void setGroupIntro(String groupIntro) {
+        this.groupIntro = groupIntro;
+    }
+
+    public String getGroupAvatarUrl() {
+        return groupAvatarUrl;
+    }
+
+    public void setGroupAvatarUrl(String groupAvatarUrl) {
+        this.groupAvatarUrl = groupAvatarUrl;
+    }
+
+    public GroupRequest(Integer classId, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer classPrice, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount, String groupAvatarUrl) {
+
+        this.classId = classId;
+        this.groupName = groupName;
+        this.groupStartTime = groupStartTime;
+        this.groupEndTime = groupEndTime;
+        this.className = className;
+        this.classPrice = classPrice;
+        this.groupCount = groupCount;
+        this.groupType = groupType;
+        this.groupFavourablePrice = groupFavourablePrice;
+        this.groupPayCount = groupPayCount;
+        this.groupAvatarUrl = groupAvatarUrl;
+    }
 
     public GroupRequest(Integer classId, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer classPrice, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount) {
         this.classId = classId;

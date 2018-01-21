@@ -19,13 +19,16 @@ public interface CourseMapper {
     @Select("SELECT * FROM course WHERE courseName = #{courseName}")
     Integer exist(String courseName);
 
+    @Select("SELECT * FROM course WHERE courseId = #{courseId}")
+    Integer existId(Integer courseId);
+
     @Insert("INSERT INTO course(courseName) VALUES(#{courseName})")
     Integer insert(String courseName);
 
     @Update("Update course set courseName=#{newCourseName} WHERE courseName =#{oldCourseName}")
     Integer update(@Param("oldCourseName") String oldCourseName, @Param("newCourseName") String newCourseName);
 
-    @Delete("DELETE FROM course WHERE courseName =#{courseName}")
-    Integer delete(String courseName);
+    @Delete("DELETE FROM course WHERE courseId =#{courseId}")
+    Integer delete(Integer courseId);
 
 }

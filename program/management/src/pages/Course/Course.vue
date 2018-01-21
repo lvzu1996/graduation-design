@@ -57,11 +57,11 @@ import DB from '../../utils/db.js'
      */
 
 const errorNumMap = {
-  '10001': 'duplicated course name',
-  '10002': 'insert fail',
+  '10001': '课程名重复',
+  '10002': '添加失败',
   '10003': 'course not found',
-  '10004': 'revice fail',
-  '10005': 'delete fail'
+  '10004': '修改失败',
+  '10005': '删除失败'
 }
 
 export default {
@@ -121,7 +121,7 @@ export default {
         type: 'warning'
       }).then(() => {
         DB.COURSE.deleteCourse({
-          'parameter': row.courseName
+          'parameter': row.courseId
         }).then(
           re => {
             _this.getCourseList()

@@ -46,7 +46,7 @@
         </el-table-column>
         <el-table-column label="拼团总容量" prop="groupCount">
         </el-table-column>
-         <el-table-column prop="groupIsEnd" label="是否结束" width="100" :filters="[{ text: '结束', value: '1' }, { text: '未结束', value: '0' }]" :filter-method="filterTag"
+         <el-table-column prop="groupIsEnd" label="是否结束" width="100" :filters="[{ text: '结束', value: 1 }, { text: '未结束', value: 0 }]" :filter-method="filterTag"
           filter-placement="bottom-end">
           <template slot-scope="scope">
             <el-tag :type="scope.row.groupIsEnd == '0' ? 'success' : 'danger'" close-transition>{{scope.row.groupIsEnd==0?'未结束':'结束'}}</el-tag>
@@ -94,6 +94,12 @@
             :picker-options="dateRangePickerOptions">
           </el-date-picker>
         </el-form-item>
+         <el-form-item label="图片地址">
+          <el-input v-model="newGroupForm.groupAvatarUrl" suffix-icon="el-icon-picture" style="width:100%;" clearable></el-input>
+        </el-form-item>
+         <el-form-item label="拼团简介">
+          <el-input type="textarea" v-model="newGroupForm.groupIntro"></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="_submitNewGroupForm">立即创建拼团</el-button>
           <el-button @click="_cancelCreateNewGroup">取消</el-button>
@@ -140,7 +146,9 @@ export default {
         classId: '',
         groupFavourablePrice: '',
         groupPayCount: '',
-        groupDateRange: ''
+        groupDateRange: '',
+        groupAvatarUrl: '',
+        groupIntro: ''
       },
       now: new Date(),
       showDetailPreview: false,
@@ -189,7 +197,9 @@ export default {
         groupFavourablePrice: this.newGroupForm.groupFavourablePrice || 0,
         groupPayCount: this.newGroupForm.groupPayCount || 0,
         groupStartTime: this.newGroupForm.groupDateRange[0],
-        groupEndTime: this.newGroupForm.groupDateRange[1]
+        groupEndTime: this.newGroupForm.groupDateRange[1],
+        groupAvatarUrl: this.newGroupForm.groupAvatarUrl,
+        groupIntro: this.newGroupForm.groupIntro
       }
     }
   },
@@ -198,7 +208,6 @@ export default {
     this._getGroupDataList()
   },
   methods: {
-    // return Array[2] Array[0] = className,Array[1] = classPrice
     _getClassInfoById (classId, infoName) {
       for (let i of this.classDataList) {
         if (i.classId === classId) {
@@ -244,6 +253,8 @@ export default {
       )
     },
     filterTag (value, row) {
+      console.log(typeof value)
+      console.log(typeof row.groupIsEnd)
       return row.groupIsEnd === value
     },
     _handleEdit (index, row) {

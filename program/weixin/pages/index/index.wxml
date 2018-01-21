@@ -10,5 +10,4 @@
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
   </view>
-  <span style="font-size:14px;"><button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">123123</button></span>  
 </view>

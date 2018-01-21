@@ -20,7 +20,7 @@ public interface GroupMapper {
     @Select("SELECT * FROM classgroup WHERE groupId = #{groupId}")
     Integer existGroupID(Integer groupId);
 
-    @Insert("INSERT INTO classgroup(classId,groupName,groupStartTime,groupEndTime,classPrice,className,groupCount,groupType,groupFavourablePrice,groupPayCount) VALUES(#{classId},#{groupName},#{groupStartTime},#{groupEndTime},#{classPrice},#{className},#{groupCount},#{groupType},#{groupFavourablePrice},#{groupPayCount})")
+    @Insert("INSERT INTO classgroup(classId,groupName,groupStartTime,groupEndTime,classPrice,className,groupCount,groupType,groupFavourablePrice,groupPayCount,groupAvatarUrl,groupIntro) VALUES(#{classId},#{groupName},#{groupStartTime},#{groupEndTime},#{classPrice},#{className},#{groupCount},#{groupType},#{groupFavourablePrice},#{groupPayCount},#{groupAvatarUrl},#{groupIntro})")
     Integer insert(GroupEntity groupEntity);
 
     @Update("Update classgroup set groupDetail=#{groupDetail} WHERE groupId =#{groupId}")

@@ -21,6 +21,59 @@ public class GroupEntity {
     private Integer groupPayCount;
     private String groupDetail;
     private Byte groupIsEnd;
+    private String groupAvatarUrl;
+    private String groupIntro;
+
+    public GroupEntity(Integer groupId, Integer classId, Integer classPrice, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount, String groupDetail, Byte groupIsEnd, String groupAvatarUrl, String groupIntro) {
+        this.groupId = groupId;
+        this.classId = classId;
+        this.classPrice = classPrice;
+        this.groupName = groupName;
+        this.groupStartTime = groupStartTime;
+        this.groupEndTime = groupEndTime;
+        this.className = className;
+        this.groupCount = groupCount;
+        this.groupType = groupType;
+        this.groupFavourablePrice = groupFavourablePrice;
+        this.groupPayCount = groupPayCount;
+        this.groupDetail = groupDetail;
+        this.groupIsEnd = groupIsEnd;
+        this.groupAvatarUrl = groupAvatarUrl;
+        this.groupIntro = groupIntro;
+    }
+
+    public String getGroupIntro() {
+        return groupIntro;
+    }
+
+    public void setGroupIntro(String groupIntro) {
+        this.groupIntro = groupIntro;
+    }
+
+    public GroupEntity(Integer groupId, Integer classId, Integer classPrice, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount, String groupDetail, Byte groupIsEnd, String groupAvatarUrl) {
+        this.groupId = groupId;
+        this.classId = classId;
+        this.classPrice = classPrice;
+        this.groupName = groupName;
+        this.groupStartTime = groupStartTime;
+        this.groupEndTime = groupEndTime;
+        this.className = className;
+        this.groupCount = groupCount;
+        this.groupType = groupType;
+        this.groupFavourablePrice = groupFavourablePrice;
+        this.groupPayCount = groupPayCount;
+        this.groupDetail = groupDetail;
+        this.groupIsEnd = groupIsEnd;
+        this.groupAvatarUrl = groupAvatarUrl;
+    }
+
+    public String getGroupAvatarUrl() {
+        return groupAvatarUrl;
+    }
+
+    public void setGroupAvatarUrl(String groupAvatarUrl) {
+        this.groupAvatarUrl = groupAvatarUrl;
+    }
 
     public GroupEntity(Integer groupId, Integer classId, Integer classPrice, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount, String groupDetail, Byte groupIsEnd) {
         this.groupId = groupId;
@@ -84,6 +137,8 @@ public class GroupEntity {
         this.groupType = groupRequest.getGroupType();
         this.groupFavourablePrice = groupRequest.getGroupFavourablePrice();
         this.groupPayCount = groupRequest.getGroupPayCount();
+        this.groupAvatarUrl = groupRequest.getGroupAvatarUrl();
+        this.groupIntro = groupRequest.getGroupIntro();
     }
 
     public GroupEntity(Integer classId, Integer classPrice, String groupName, Date groupStartTime, Date groupEndTime, String className, Integer groupCount, Integer groupType, Integer groupFavourablePrice, Integer groupPayCount) {
