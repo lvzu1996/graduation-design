@@ -1,12 +1,33 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/groupdetail/groupdetail",
+    "pages/test/test",
+    "pages/me/me"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
+    "navigationBarBackgroundColor": "#e25d55",
+    "navigationBarTitleText": "兴趣班开团",
+    "navigationBarTextStyle":"white"
+  },
+  "tabBar":{
+    "borderStyle":"white",
+    "selectedColor":"#e25d55",
+    "list":[
+      {
+        "pagePath": "pages/index/index",
+        "text": "拼团",
+        "iconPath":"./tabBar_img/pintuan.png",
+        "selectedIconPath":"./tabBar_img/pintuan_on.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我的拼团",
+        "iconPath":"./tabBar_img/me.png",
+        "selectedIconPath":"./tabBar_img/me_on.png"
+      }
+    ]
   }
 }

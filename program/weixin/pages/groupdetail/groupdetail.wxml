@@ -1,0 +1,72 @@
+<!--<scroll-view scroll-y scroll-into-view="{{scrollToView}}" > -->
+<view>
+
+    <swiper indicator-dots="true" id="groupdetail-swiper"
+    autoplay="true" interval="5000" duration="1000">
+    <view id="swiper-detail" bindtap="_getDetail">
+        <span style="padding-left:21rpx;">图文详情</span>
+    </view>
+    <block wx:for="{{imgUrls}}" wx:key="unique">
+        <swiper-item>
+        <image src="{{item}}" class="slide-image" mode="aspectFit"/>
+        </swiper-item>
+    </block>
+    </swiper>
+    <view id="detail-menu">
+        <view id="detail-menu-home" bindtap="_toHome">
+            <image src="./resource/imgs/home.svg"/>
+            <span>首页</span>
+        </view>
+        <view id="detail-menu-sole" bindtap="_soleBuy">
+            <p>￥12.96</p>
+            <p>单独购买</p>
+        </view>
+        <view id="detail-menu-group" bindtap="_groupBuy">
+             <span>￥9.96</span>
+            <span>拼团购买</span>
+        </view>
+    </view>
+    <view class="groupdetail-detail">
+        <view class="detail-text">
+            {{basicInfos.text}}
+        </view>
+        <view class="detail-price-share">
+            <view class="detail-prices">
+                <view class="price">
+                    ￥{{basicInfos.price}}
+                </view>
+                <view class="oldprice">
+                    ￥{{basicInfos.oldprice}}
+                </view>
+            </view>
+            <view class="share">
+             <button open-type="share">分享</button>
+             <image src="./resource/imgs/share.svg" />
+            </view>   
+        </view>
+
+        <view class="detail-promise">
+            <view class='promise-single'>
+                <image src="./resource/imgs/tick.svg" />
+                    <p>名师授课</p>
+            </view>
+            <view class='promise-single'>
+                <image src="./resource/imgs/tick.svg" />
+                    <p>快捷退款</p>
+            </view>
+            <view class='promise-single'>
+                <image src="./resource/imgs/tick.svg" />
+                    <p>优惠价格</p>
+            </view>
+        </view>
+    </view>
+
+
+
+    <view class="detail-explain">
+        <span>商品详情</span>
+    <image wx:for="{{detailImages}}" wx:key="unique" src="{{item}}" mode="widthFix"/>
+    </view>
+    
+</view>
+<!--</scroll-view>-->

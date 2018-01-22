@@ -1,0 +1,26 @@
+#top-tab{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5rpx;
+}
+
+#top-tab view{
+    width: 25%;
+    font-size: 30rpx;
+    display: flex;
+    justify-content: center;
+}
+
+#order-list{
+    height: 1000rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.red{
+    text-decoration: underline;
+    color: #e25d55;
+}

@@ -1,0 +1,23 @@
+<view id="top-tab">
+    <view class="{{selected[0]?'red':'default'}}" bindtap="_select" data-cindex="0"> 
+        全部
+    </view >
+    <view class="{{selected[1]?'red':'default'}}" bindtap="_select" data-cindex="1">
+        待成团
+    </view>
+    <view class="{{selected[2]?'red':'default'}}" bindtap="_select" data-cindex="2">
+        已成团
+    </view>
+    <view class="{{selected[3]?'red':'default'}}" bindtap="_select" data-cindex="3">
+        拼团失败
+    </view>
+</view>
+
+<view id="order-list">
+    <view wx:if="{{none}}">
+        暂无相关订单
+    </view>
+    <view wx:if="{{!none}}">
+        sdds
+    </view>
+</view>
