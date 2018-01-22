@@ -6,6 +6,7 @@
      <div id="course-table">
   <el-table
     :data="courseListData"
+    v-loading="loading"
     style="width: 100%">
     <el-table-column
       label="课程名"
@@ -68,7 +69,8 @@ export default {
   data () {
     return {
       courseListData: [{courseName: 'hahaha', courseId: 1}],
-      courseAddName: ''
+      courseAddName: '',
+      loading: false
     }
   },
   created () {
@@ -80,12 +82,15 @@ export default {
     },
     getCourseList () {
       const _this = this
+      _this.loading = true
       DB.COURSE.getCourse({}).then(
       re => {
         _this.courseListData = re
+        _this.loading = false
       },
       re => {
         _this._handleError(re)
+        _this.loading = false
       }
     )
     },

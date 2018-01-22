@@ -1,5 +1,6 @@
 package com.lvzu.dao;
 
+import com.lvzu.entity.GroupBannerEntity;
 import com.lvzu.entity.GroupEntity;
 import java.util.List;
 import org.apache.ibatis.annotations.*;
@@ -24,7 +25,7 @@ public interface GroupMapper {
     Integer insert(GroupEntity groupEntity);
 
     @Update("Update classgroup set groupDetail=#{groupDetail} WHERE groupId =#{groupId}")
-    Integer setDetail(@Param("groupId") Integer groupId, @Param("groupDetail") String groupDetail);
+    Integer setDetail(Integer groupId,String groupDetail);
 
     @Update("Update classgroup set groupIsEnd=1 WHERE groupId =#{groupId}")
     Integer setEnd(@Param("groupId") Integer groupId);
@@ -34,4 +35,13 @@ public interface GroupMapper {
 
     @Delete("DELETE FROM classgroup WHERE groupId =#{id}")
     Integer delete(Integer id);
+
+    @Insert("INSERT INTO group_banner(groupId,bannerUrl) VALUES(#{groupId},#{bannerUrl})")
+    Integer insertGroupBanner(@Param("groupId") Integer groupId,@Param("bannerUrl") String bannerUrl);
+
+    @Select("SELECT * FROM group_banner where groupId = #{groupId}")
+    List<GroupBannerEntity> getGroupBanners(Integer groupId);
+
+    @Delete("DELETE FROM group_banner WHERE groupBannerId =#{groupBannerId}")
+    Integer deleteGroupBanner(Integer groupBannerId);
 }

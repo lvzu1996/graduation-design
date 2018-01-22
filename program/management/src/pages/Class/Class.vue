@@ -4,6 +4,7 @@
   
   <el-table
     border
+    v-loading="loading"
     :data="classListData"
     style="width: 100%">
     <el-table-column
@@ -158,6 +159,7 @@ const errorNumMap = {
 export default {
   data () {
     return {
+      loading: false,
       classListData: [{
         classId: 1,
         className: 'haha',
@@ -249,11 +251,14 @@ export default {
     },
     getClassList () {
       const _this = this
+      _this.loading = true
       DB.CLASS.getClass({}).then(
         re => {
           _this.classListData = re
+          _this.loading = false
         },
         re => {
+          _this.loading = false
         }
       )
     },

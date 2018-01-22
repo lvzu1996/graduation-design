@@ -63,16 +63,27 @@ DBF.create('GROUP', {
     method: 'POST'
   },
   reviceGroupDetail: {
-    url: prefix + '/groups/groupDetail',
+    url: prefix + '/groups/detail',
     method: 'PATCH'
   },
   groupSetEnd: {
-    url: prefix + '/groups/groupSetEnd',
+    url: prefix + '/groups/end',
     method: 'PATCH'
   },
   deleteGroup: {
     url: prefix + '/groups',
     method: 'DELETE'
+  },
+  getGroupBanners: {
+    url: prefix + '/group/banners',
+    method: 'GET'
+  },
+  addGroupBanner: {
+    url: prefix + '/group/banners',
+    method: 'POST'
+  },
+  deleteGroupBanner: {
+    url: prefix + '/group/banners',
+    method: 'DELETE'
   }
-
 })

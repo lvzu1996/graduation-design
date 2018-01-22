@@ -6,7 +6,7 @@
     </div>
     <!-- 拼团列表显示 -->
     <div id="group-table">
-      <el-table :data="groupListData" style="width: 100%">
+      <el-table :data="groupListData" style="width: 100%" v-loading="loading">
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -54,7 +54,8 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="_handleEdit(scope.$index, scope.row)">编辑拼团详情</el-button>
+            <el-button size="mini" @click="_handleEdit(scope.$index, scope.row)">详情</el-button>
+            <el-button size="mini" @click="_handleEditBanner(scope.$index, scope.row)">banner</el-button>
             <el-button size="mini" type="danger" @click="_handleSetEnd(scope.$index, scope.row)">结束拼团</el-button>
           </template>
         </el-table-column>
@@ -108,13 +109,25 @@
     </el-dialog>
     <!-- 拼团介绍详情编辑 -->
     <el-dialog
-      title="提示"
+      title="拼团介绍详情编辑"
       :visible.sync="showDetailPreview"
       width="80%">
        <vue-editor v-model="groupDetailContent"></vue-editor>
        <div style="margin-top:20px"></div>
         <el-button type="primary" plain @click="groupDetailAddPic">添加图片</el-button>
         <el-button type="success" plain @click="groupDetailSave">确定保存</el-button>
+    </el-dialog>
+
+    <el-dialog title="拼团banner编辑" :visible.sync="showBannerEdit" width="30%">
+        <el-carousel :interval="5000" arrow="always" @change="carouselChange">
+          <el-carousel-item v-for="(item,index) in groupBannerUrlsDataList" :key="index">
+            <img :src="item.groupBannerUrl" >
+          </el-carousel-item>
+        </el-carousel>
+        <div style="margin-top:30px;">
+          <el-button @click="addBanner" type="success">添加图片</el-button>
+          <el-button @click="deleteBanner" type="danger">删除图片</el-button>
+        </div>
     </el-dialog>
   </div>
 
@@ -151,11 +164,16 @@ export default {
         groupIntro: ''
       },
       now: new Date(),
+      loading: false,
       showDetailPreview: false,
       // 弹窗编辑的dom html
       groupDetailContent: '',
       // 当前正在编辑的groupdetail 的id
       groupDetailEditId: '',
+      // 编辑拼团banner
+      showBannerEdit: false,
+      groupBannerUrlsDataList: [],
+      currentIndex: 0,
       dateRangePickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -240,9 +258,15 @@ export default {
     },
     _getGroupDataList () {
       const _this = this
+      _this.loading = true
       DB.GROUP.getGroup({}).then(
-        re => { _this.groupListData = re },
-        re => {}
+        re => {
+          _this.groupListData = re
+          _this.loading = false
+        },
+        re => {
+          _this.loading = false
+        }
       )
     },
     _getClassDataList () {
@@ -262,6 +286,13 @@ export default {
       this.groupDetailContent = row.groupDetail
       this.groupDetailEditId = row.groupId
       this.showDetailPreview = true
+    },
+    handleBannerEditClose () {
+
+    },
+    _handleEditBanner (index, row) {
+      this.getGroupBannerUrlsDataList(row.groupId)
+      this.showBannerEdit = true
     },
     _handleSetEnd (index, row) {
       const _this = this
@@ -315,9 +346,95 @@ export default {
         groupId: _this.groupDetailEditId,
         groupDetail: _this.groupDetailContent
       }).then(
-        re => {},
+        re => {
+          _this.$message({
+            type: 'success',
+            message: '修改成功'
+          })
+        },
         re => {}
       )
+    },
+    getGroupBannerUrlsDataList (groupId) {
+      const _this = this
+      DB.GROUP.getGroupBanners({
+        groupId: groupId
+      }).then(
+            re => {
+              _this.groupBannerUrlsDataList = re
+              console.log(_this.groupBannerUrlsDataList.length)
+            },
+            re => {}
+          )
+    },
+    carouselChange (newIndex) {
+      this.currentIndex = newIndex
+    },
+    deleteBanner () {
+      const _this = this
+      console.log(_this.groupBannerUrlsDataList[this.currentIndex].groupBannerId)
+      if (this.groupBannerUrlsDataList[this.currentIndex]) {
+        this.$confirm('此操作将永久删除该图片, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          DB.GROUP.deleteGroupBanner({
+            'parameter': _this.groupBannerUrlsDataList[this.currentIndex].groupBannerId
+          }).then(
+            re => {
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              })
+              _this.getGroupBannerUrlsDataList(3)
+            },
+            re => {
+              this.$message({
+                type: 'error',
+                message: re
+              })
+            }
+          )
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      }
+    },
+
+    addBanner () {
+      const _this = this
+      this.$prompt('请输入图片地址', '添加banner图', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        DB.GROUP.addGroupBanner({
+          groupId: _this.groupBannerUrlsDataList[this.currentIndex].groupId,
+          bannerUrl: value
+        }).then(
+          re => {
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            })
+            _this.getGroupBannerUrlsDataList(3)
+          },
+          re => {
+            this.$message({
+              type: 'error',
+              message: re
+            })
+          }
+        )
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消添加'
+        })
+      })
     }
 
   }

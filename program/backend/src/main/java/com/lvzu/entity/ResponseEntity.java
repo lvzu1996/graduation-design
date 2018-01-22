@@ -31,6 +31,8 @@ public class ResponseEntity {
      *  40004 the course is already over or can not find group
      *  40005 delete fail
      *  40006 group not exist
+     *  40007 group banner insert fail
+     *  40008 group banner delete fail
      */
 
     private String msg;

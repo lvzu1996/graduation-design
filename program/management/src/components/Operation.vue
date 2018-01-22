@@ -68,7 +68,7 @@ export default {
     top: 60px;
     bottom: 0px;
     left: 0px;
-    z-index:9999;
+    z-index:1;
 }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;

@@ -35,7 +35,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  z-index:9999;
+  z-index:1;
 }
 
 #manage-title{
