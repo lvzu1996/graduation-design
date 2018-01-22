@@ -54,7 +54,7 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="_handleEdit(scope.$index, scope.row)">详情</el-button>
+            <el-button size="mini" @click="_handleEdit(scope.$index, scope.row)">详情编辑</el-button>
             <el-button size="mini" @click="_handleEditBanner(scope.$index, scope.row)">banner</el-button>
             <el-button size="mini" type="danger" @click="_handleSetEnd(scope.$index, scope.row)">结束拼团</el-button>
           </template>
@@ -138,7 +138,6 @@
 <script>
 import DB from '../../utils/db.js'
 import { VueEditor } from 'vue2-editor'
-import groupListData from './groupListData'
 
 export default {
   components: {
@@ -147,7 +146,7 @@ export default {
   data () {
     return {
       // 表格显示现有group 数据
-      groupListData: groupListData,
+      groupListData: [],
       classDataList: [],
       showNewGroupForm: false,
       // 新建拼团弹窗form数据
@@ -171,6 +170,7 @@ export default {
       // 当前正在编辑的groupdetail 的id
       groupDetailEditId: '',
       // 编辑拼团banner
+      urlEditingGroupId: '',
       showBannerEdit: false,
       groupBannerUrlsDataList: [],
       currentIndex: 0,
@@ -238,7 +238,7 @@ export default {
     },
     _submitNewGroupForm () {
       const _this = this
-      console.log(this.newGroupPostData)
+      // console.log(this.newGroupPostData)
       DB.GROUP.createGroup(this.newGroupPostData).then(
         re => {
           this.$message({
@@ -277,12 +277,10 @@ export default {
       )
     },
     filterTag (value, row) {
-      console.log(typeof value)
-      console.log(typeof row.groupIsEnd)
       return row.groupIsEnd === value
     },
     _handleEdit (index, row) {
-      console.log(row.groupDetail)
+      // console.log(row.groupDetail)
       this.groupDetailContent = row.groupDetail
       this.groupDetailEditId = row.groupId
       this.showDetailPreview = true
@@ -293,6 +291,7 @@ export default {
     _handleEditBanner (index, row) {
       this.getGroupBannerUrlsDataList(row.groupId)
       this.showBannerEdit = true
+      this.urlEditingGroupId = row.groupId
     },
     _handleSetEnd (index, row) {
       const _this = this
@@ -351,6 +350,7 @@ export default {
             type: 'success',
             message: '修改成功'
           })
+          _this._getGroupDataList()
         },
         re => {}
       )
@@ -362,7 +362,7 @@ export default {
       }).then(
             re => {
               _this.groupBannerUrlsDataList = re
-              console.log(_this.groupBannerUrlsDataList.length)
+              // console.log(_this.groupBannerUrlsDataList.length)
             },
             re => {}
           )
@@ -372,7 +372,7 @@ export default {
     },
     deleteBanner () {
       const _this = this
-      console.log(_this.groupBannerUrlsDataList[this.currentIndex].groupBannerId)
+      // console.log(_this.groupBannerUrlsDataList[this.currentIndex].groupBannerId)
       if (this.groupBannerUrlsDataList[this.currentIndex]) {
         this.$confirm('此操作将永久删除该图片, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -387,7 +387,7 @@ export default {
                 type: 'success',
                 message: '删除成功'
               })
-              _this.getGroupBannerUrlsDataList(3)
+              _this.getGroupBannerUrlsDataList(_this.urlEditingGroupId)
             },
             re => {
               this.$message({
@@ -412,7 +412,7 @@ export default {
         cancelButtonText: '取消'
       }).then(({ value }) => {
         DB.GROUP.addGroupBanner({
-          groupId: _this.groupBannerUrlsDataList[this.currentIndex].groupId,
+          groupId: _this.urlEditingGroupId,
           bannerUrl: value
         }).then(
           re => {
@@ -420,7 +420,7 @@ export default {
               type: 'success',
               message: '添加成功'
             })
-            _this.getGroupBannerUrlsDataList(3)
+            _this.getGroupBannerUrlsDataList(_this.urlEditingGroupId)
           },
           re => {
             this.$message({

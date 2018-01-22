@@ -1,14 +1,14 @@
-<!--<scroll-view scroll-y scroll-into-view="{{scrollToView}}" > -->
+<import src="../../wxParse/wxParse.wxml"/>
 <view>
 
     <swiper indicator-dots="true" id="groupdetail-swiper"
     autoplay="true" interval="5000" duration="1000">
-    <view id="swiper-detail" bindtap="_getDetail">
+    <view id="swiper-detail">
         <span style="padding-left:21rpx;">图文详情</span>
     </view>
-    <block wx:for="{{imgUrls}}" wx:key="unique">
+    <block wx:for="{{bannerUrls}}" wx:key="unique">
         <swiper-item>
-        <image src="{{item}}" class="slide-image" mode="aspectFit"/>
+        <image src="{{item.groupBannerUrl}}" class="slide-image" mode="aspectFit"/>
         </swiper-item>
     </block>
     </swiper>
@@ -18,25 +18,25 @@
             <span>首页</span>
         </view>
         <view id="detail-menu-sole" bindtap="_soleBuy">
-            <p>￥12.96</p>
+            <p>￥{{groupData.classPrice}}</p>
             <p>单独购买</p>
         </view>
         <view id="detail-menu-group" bindtap="_groupBuy">
-             <span>￥9.96</span>
+             <span>￥{{groupData.groupFavourablePrice}}</span>
             <span>拼团购买</span>
         </view>
     </view>
     <view class="groupdetail-detail">
         <view class="detail-text">
-            {{basicInfos.text}}
+            {{groupData.groupIntro}}
         </view>
         <view class="detail-price-share">
             <view class="detail-prices">
                 <view class="price">
-                    ￥{{basicInfos.price}}
+                    ￥{{groupData.groupFavourablePrice}}
                 </view>
                 <view class="oldprice">
-                    ￥{{basicInfos.oldprice}}
+                    ￥{{groupData.classPrice}}
                 </view>
             </view>
             <view class="share">
@@ -65,7 +65,7 @@
 
     <view class="detail-explain">
         <span>商品详情</span>
-    <image wx:for="{{detailImages}}" wx:key="unique" src="{{item}}" mode="widthFix"/>
+    <template is="wxParse" data="{{wxParseData:groupDetail.nodes}}"/>
     </view>
     
 </view>

@@ -64,9 +64,9 @@ Page({
             duration: 400 //时间
         })
     },
-    _setupGroup: function (id) {
+    _setupGroup: function (e) {
         wx.navigateTo({
-            url: `../groupdetail/groupdetail?id=${id}`
+            url: `../groupdetail/groupdetail?groupId=${e.target.dataset.groupid}`
         })
     },
 

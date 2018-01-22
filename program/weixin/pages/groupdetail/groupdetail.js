@@ -1,99 +1,101 @@
 var WxParse = require('../../wxParse/wxParse.js');
 
 Page({
-    data: {
-      id:0,
-      imgUrls: [
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/swiper/1.png',
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/swiper/2.png',
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/swiper/3.png',
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/swiper/4.png',
-      ],
-      scrollToView:'groupdetail-swiper',
-      basicInfos:{
-        text:'【奥数班】小班化教学专为小升初学生量身打造，重点学校教师授课',
-        price:'9.5',
-        oldprice:'36',
-        existingmember:1676,
+  data: {
+    groupData: {},
+    bannerUrls: [],
+    groupId: 0,
+  },
+
+  onLoad: function (options) {
+    const _this = this
+    _this.groupId = options.groupId
+    _this.setData({
+      groupId: options.groupId
+    })
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+    wx.request({
+      url: `http://localhost:8080/api/group?groupId=${_this.groupId}`, //仅为示例，并非真实的接口地址
+      header: {
+        'content-type': 'application/json' // 默认值
       },
-      detailImages:[
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/classroom/1.jpg',
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/classroom/2.jpg',
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/classroom/3.jpg',
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/classroom/4.jpg',
-        'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/classroom/5.jpg',
-      ] 
-    },
+      success: function (res) {
+        // console.log(res.data.data)
+        var groupData = res.data.data
+        groupData = _this._handleGroupData(groupData)
+        _this.groupData = groupData
+        _this.setData({
+          groupData: groupData
+        })
 
-    onLoad:function(options){
-      this.setData({
-        id:options.id
-      })
-      wx.showShareMenu({
-        withShareTicket: true
-      })
-      // 通过id获取相应拼团详情
-      // ({
-      //   url: 'test.php', //仅为示例，并非真实的接口地址
-      //   data: {
-      //     x: '',
-      //     y: ''
-      //   },
-      //   header: {
-      //     'content-type': 'application/json' // 默认值
-      //   },
-      //   success: function (res) {
-      //     console.log(res.data)
-      //   }
-      // })
-    },
-
-    _getDetail:function(){
-      this.setData({
-        scrollToView:'detail2'
-      })
-    },
-
-    onShareAppMessage: function (res) {
-      const _this = this
-      if (res.from === 'button') {
-        // 来自页面内转发按钮
-        console.log(res.target)
+        WxParse.wxParse('groupDetail', 'html', _this.groupData.groupDetail, _this,5);
       }
-      return {
-        title: '自定义转发标题',
-        path: '/pages/groupdetail/groupdetail?id='+_this.id,
-        success: function(res) {
-          // 转发成功
-        },
-        fail: function(res) {
-          // 转发失败
-        }
+    })
+    wx.request({
+      url: `http://localhost:8080/api/group/banners?groupId=${_this.groupId}`, //仅为示例，并非真实的接口地址
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        // console.log(res.data.data)
+        _this.bannerUrls = res.data.data
+        _this.setData({
+          bannerUrls: res.data.data
+        })
       }
-    },
+    })
+  },
 
-    _toHome:function(){
-      wx.switchTab({
-        url: '/pages/index/index'
-      })
-    },
+  _handleGroupData:function(groupData){
+    if(groupData.groupType === 2){
+      groupData.groupFavourablePrice =  Math.ceil(groupData.classPrice * (groupData.groupPayCount / groupData.groupCount))
+    }
+    // console.log(groupData)
+    return groupData
+  },
 
-    _soleBuy:function(){
-      wx.showLoading({
-        title: '正在跳转支付',
-      })
-      setTimeout(function () {
-        wx.hideLoading()
-      }, 2000)
-    },
+  onShareAppMessage: function (res) {
+    const _this = this
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '自定义转发标题',
+      path: '/pages/groupdetail/groupdetail?id=' + _this.id,
+      success: function (res) {
+        // 转发成功
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
+  },
 
-    _groupBuy:function(){
-      wx.showLoading({
-        title: '正在跳转支付',
-      })
-      setTimeout(function () {
-        wx.hideLoading()
-      }, 2000)
-    },
-    
-  })
+  _toHome: function () {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
+
+  _soleBuy: function () {
+    wx.showLoading({
+      title: '正在跳转支付',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 2000)
+  },
+
+  _groupBuy: function () {
+    wx.showLoading({
+      title: '正在跳转支付',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 2000)
+  },
+
+})

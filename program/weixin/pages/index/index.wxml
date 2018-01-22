@@ -5,7 +5,7 @@
     </view>
 
     <view class="getgroup-list">
-        <view class="getgroup-singlelist" wx:for="{{grouplist}}" wx:key="unique" data-ename="{{item.ename}}">
+        <view class="getgroup-singlelist" wx:for="{{grouplist}}" wx:key="unique">
             <view class="singlelist-totality">
                 {{item.groupCount}}人团
             </view>
@@ -16,7 +16,7 @@
                     <span class="singlelist-price">￥{{item.groupFavourablePrice}}</span>
                     <span class="singlelist-count">已团1221件</span>
                 </view>
-                <button bindtap="_setupGroup"> 去开团 </button>
+                <button bindtap="_setupGroup" data-groupId="{{item.groupId}}"> 去开团 </button>
             </view>
         </view>
     </view>

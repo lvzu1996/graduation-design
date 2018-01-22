@@ -25,7 +25,7 @@ public interface GroupMapper {
     Integer insert(GroupEntity groupEntity);
 
     @Update("Update classgroup set groupDetail=#{groupDetail} WHERE groupId =#{groupId}")
-    Integer setDetail(Integer groupId,String groupDetail);
+    Integer setDetail(@Param("groupId") Integer groupId,@Param("groupDetail") String groupDetail);
 
     @Update("Update classgroup set groupIsEnd=1 WHERE groupId =#{groupId}")
     Integer setEnd(@Param("groupId") Integer groupId);

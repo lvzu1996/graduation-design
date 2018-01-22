@@ -30,6 +30,14 @@ public class GroupController {
         return responseEntity;
     }
 
+    @RequestMapping(value= "/api/group",method = RequestMethod.GET)
+    public ResponseEntity GetOne(@RequestParam("groupId") Integer groupId) {
+        GroupEntity group= groupMapper.getOne(groupId);
+        responseEntity = new ResponseEntity();
+        responseEntity = responseEntity.success(group);
+        return responseEntity;
+    }
+
     @RequestMapping(value ="/api/groups", method = RequestMethod.POST)
     public ResponseEntity Add(@RequestBody GroupRequest groupRequest) {
         responseEntity = new ResponseEntity();
