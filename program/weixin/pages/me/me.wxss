@@ -22,5 +22,5 @@
 
 .red{
     text-decoration: underline;
-    color: #e25d55;
+    color: #6CCAD7;
 }

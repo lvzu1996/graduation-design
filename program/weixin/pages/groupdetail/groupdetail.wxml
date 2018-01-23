@@ -21,9 +21,13 @@
             <p>￥{{groupData.classPrice}}</p>
             <p>单独购买</p>
         </view>
-        <view id="detail-menu-group" bindtap="_groupBuy">
+        <view id="detail-menu-group" bindtap="_groupBuy" wx:if="{{groupData.groupType === 1}}">
              <span>￥{{groupData.groupFavourablePrice}}</span>
             <span>拼团购买</span>
+        </view>
+        <view id="detail-menu-group" bindtap="_setUpGroup" wx:if="{{groupData.groupType === 2}}">
+             <span>￥{{groupData.groupFavourablePrice}}</span>
+            <span>发起拼团</span>
         </view>
     </view>
     <view class="groupdetail-detail">

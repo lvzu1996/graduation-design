@@ -1,0 +1,14 @@
+<view id="register-main">
+    <view id="register-phone-view">
+        <span>手机号：</span>
+        <input placeholder="输入手机号" id="register-phone" auto-focus/>
+    </view>
+    <view id="register-verify-view">
+        <span>手机号：</span>
+        <input placeholder="验证码" />
+        <view id="verify-view">
+            发送验证码
+        </view>
+    </view>
+    <button>注册</button>
+</view>

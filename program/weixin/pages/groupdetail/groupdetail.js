@@ -1,5 +1,6 @@
 var WxParse = require('../../wxParse/wxParse.js');
 
+const app = getApp()
 Page({
   data: {
     groupData: {},
@@ -98,4 +99,7 @@ Page({
     }, 2000)
   },
 
+  _setUpGroup:function(){
+    console.log(app.globalData)
+  }
 })
