@@ -25,13 +25,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
-					"name": "调试groupdetail",
-					"pathName": "pages/register/register",
-					"query": "id=1"
+					"name": "开发页面的调试",
+					"pathName": "pages/share/share",
+					"query": "gorupId=16"
 				},
 				{
 					"id": 1,

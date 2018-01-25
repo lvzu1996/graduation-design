@@ -1,1 +1,24 @@
-<view>share</view>
+<view id="share-body">
+    <image src="./imgs/share.png" 
+    id="backgroud-img"
+    mode="widthFix"></image>
+    <view id="attend-body">
+        <view id="attend-title">
+            ------ 已参加拼团的成员 ------
+        </view>
+        <scroll-view id="groupmember-list" scroll-y style="width: 80%">
+            <view wx:for="{{groupMemberListData}}" wx:key="unique" class="groupmember-single">
+                <view class="groupmember-avatar">
+                    <image src="{{item.avatarUrl}}" mode="aspectFill"></image>
+                </view>
+                <view class="groupmember-msg-class">
+                    <view class="groupmember-msg">
+                        <span class="groupmember-name">{{item.name}}</span>
+                        <span>{{item.dateTime}}</span>
+                    </view>
+                    <view class="groupmember-class">{{item.className}}</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+</view>

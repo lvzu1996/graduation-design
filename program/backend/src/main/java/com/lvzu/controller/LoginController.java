@@ -3,6 +3,7 @@ package com.lvzu.controller;
 import com.alibaba.fastjson.JSON;
 import com.lvzu.controller.requestBody.LoginRequest;
 import com.lvzu.dao.LoginMapper;
+import com.lvzu.dao.TestMapper;
 import com.lvzu.entity.ManagerEntity;
 import com.lvzu.entity.ResponseEntity;
 import com.lvzu.utils.HttpRequestUtil;
@@ -13,10 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zhibinglv on 2018/1/6.
@@ -28,6 +26,9 @@ public class LoginController {
 
     @Resource
     private LoginMapper loginMapper;
+
+    @Resource
+    private TestMapper testMapper;
 
     private com.lvzu.entity.ResponseEntity responseEntity;
 
@@ -96,5 +97,11 @@ public class LoginController {
             responseEntity = responseEntity.fail();
         }
         return responseEntity;
+    }
+
+    @RequestMapping(value ="/api/test", method = RequestMethod.GET)
+    public List Test(){
+       List<Map<String,String>> temp = testMapper.test();
+        return temp;
     }
 }

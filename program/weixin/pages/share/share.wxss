@@ -1,0 +1,65 @@
+#share-body {}
+
+#backgroud-img {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+}
+
+#attend-body {
+    position: absolute;
+    width: 100%;
+    top: 950rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#attend-title {
+    color: #fff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#groupmember-list {
+    margin-top: 30rpx;
+    height: 800rpx;
+}
+
+.groupmember-single {
+    color: #fff;
+    font-size: 28rpx;
+    margin-top: 20rpx;
+    height: 150rpx;
+    display: flex;
+    height: 100rpx;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.groupmember-avatar {
+    width: 100rpx;
+}
+
+.groupmember-avatar image {
+    width: 100rpx;
+    height: 100rpx;
+}
+
+.groupmember-msg-class {
+    width: 450rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.groupmember-name{
+    font-size: 32rpx;
+}
+.groupmember-msg{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
