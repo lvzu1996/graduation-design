@@ -1,35 +1,52 @@
-#register-main{
-    font-size:28rpx;
-    margin-top:50rpx;
+#register-main {
+    font-size: 28rpx;
+    margin-top: 50rpx;
     display: flex;
     flex-direction: column;
 }
 
-#register-phone-view{
+#register-phone-view {
     padding: 0 50rpx;
-    margin-top:30rpx;
+    margin-top: 30rpx;
     display: flex;
     flex-direction: row;
 }
-#register-verify-view{
+
+#register-verify-view {
     padding: 0 50rpx;
-    margin-top:30rpx;
+    margin-top: 30rpx;
     display: flex;
     flex-direction: row;
+}
+
+span {
+    display: flex;
+    align-items: center;
 }
 
 input {
-    flex-grow:1;
-    width:300rpx;
+    flex-grow: 1;
+    width: 300rpx;
     border-bottom: 1rpx solid rgb(197, 197, 197);
-    
-}
-button{
-    width:200rpx;
+    margin-bottom: 10rpx;
+    vertical-align: middle;
 }
 
-#verify-view{
+button {
+    width: 80%;
+    margin-top: 80rpx;
+    font-size: 27rpx;
+    background-color: #6CCAD7;
+    color: #fff;
+    height: 80rpx;
+    line-height:80rpx;
+}
+
+#verify-view {
+    display: flex;
+    align-items: center;
     border: 1rpx solid #6CCAD7;
+    color: #6CCAD7;
     padding: 0 40rpx;
-    border-radius: 10rpx;
+    border-radius: 45rpx;
 }

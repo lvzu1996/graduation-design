@@ -1,5 +1,5 @@
 var WxParse = require('../../wxParse/wxParse.js');
-
+import {login} from '../../utils/login.js'
 const app = getApp()
 Page({
   data: {
@@ -9,10 +9,11 @@ Page({
   },
 
   onLoad: function (options) {
+    login()
     const _this = this
     _this.groupId = options.groupId
     _this.setData({
-      groupId: options.groupId
+      'groupId': options.groupId
     })
     wx.showShareMenu({
       withShareTicket: true
@@ -90,16 +91,29 @@ Page({
     }, 2000)
   },
 
-  _groupBuy: function () {
-    wx.showLoading({
-      title: '正在跳转支付',
-    })
-    setTimeout(function () {
-      wx.hideLoading()
-    }, 2000)
-  },
-
   _setUpGroup:function(){
-    console.log(app.globalData)
+    const _this = this
+    wx.request({
+      url: 'http://localhost:8080/api/user/judge', //仅为示例，并非真实的接口地址
+      method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      data: {
+        userOpenid:app.globalData.openid
+      },
+      success: function (res) {
+        if(res.data.msg == 'fail') {
+          wx.loadingNav('正在跳转注册页面', 1200, `/pages/register/register?type=before_buy`)
+        }else {
+          wx.navigateTo({
+            url: `/pages/share/share?groupId=${_this.groupId}`,
+          })
+        }
+      },
+      fail:function(res){
+
+      }
+    })
   }
 })

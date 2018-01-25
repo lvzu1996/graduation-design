@@ -1,14 +1,15 @@
 <view id="register-main">
     <view id="register-phone-view">
         <span>手机号：</span>
-        <input placeholder="输入手机号" id="register-phone" auto-focus/>
+        <input placeholder="输入手机号" id="register-phone" value="{{userTelephone}}" bindinput="_changePhone" bindblur="_testPhone" auto-focus/>
+        <view></view>
     </view>
     <view id="register-verify-view">
-        <span>手机号：</span>
-        <input placeholder="验证码" />
-        <view id="verify-view">
+        <span>验证码：</span>
+        <input placeholder="请输入验证码" value="{{verifyCode}}" bindinput="_changeVerifyCode" />
+        <view id="verify-view" bindtap="_getVerifyCode">
             发送验证码
         </view>
     </view>
-    <button>注册</button>
+    <button bindtap="_register">注 册</button>
 </view>

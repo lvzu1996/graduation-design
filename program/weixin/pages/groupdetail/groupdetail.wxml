@@ -1,6 +1,5 @@
 <import src="../../wxParse/wxParse.wxml"/>
 <view>
-
     <swiper indicator-dots="true" id="groupdetail-swiper"
     autoplay="true" interval="5000" duration="1000">
     <view id="swiper-detail">

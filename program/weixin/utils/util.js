@@ -24,8 +24,40 @@ function getWindowW() {
   return windowW
 }
 
+function loadingNav(msg,timeout,url){
+  wx.showLoading({
+    title: '正在发送验证码',
+    duration:timeout
+  })
+  setTimeout(() => {
+    wx.navigateTo({
+      url: url,
+    })
+  },timeout)
+}
+
+function sData(key,value,t){
+  t[key] = value
+  t.setData({
+    key:value
+  })
+}
+
+function sDataList(keyList,valueList,t){
+  var newObj = {}
+  for(let i = 0 ; i < keyList ; i ++){
+    t[keyList[i]] = valueList[i]
+    newObj[keyList[i]] = valueList[i]
+  }
+  t.setData(newObj)
+}
+
+wx.loadingNav = loadingNav
+wx.sData = sData
+wx.sDataList = sDataList
 
 module.exports = {
   formatTime: formatTime,
-  getWindowW : getWindowW
+  getWindowW : getWindowW,
+  loadingNav: loadingNav
 }

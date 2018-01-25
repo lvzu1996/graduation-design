@@ -19,6 +19,7 @@ public class ResponseEntity {
      *  ****************************
      *  2000x ----- /api/login
      *  20001 telephone password error
+     *  20002 wx register fail
      *  ****************************
      *  3000x ----- /api/class
      *  30001 insert fail

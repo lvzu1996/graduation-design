@@ -66,7 +66,35 @@ public class LoginController {
         Map<String,String> maps = (Map) JSON.parse(responseStr);
         String session_key = maps.get("session_key");
         long expire = new Date().getTime()+TEN_MINUTES;
-        loginMapper.insert(session_key,expire);
+        if(loginMapper.exist(session_key) != null){
+            loginMapper.update(session_key,expire);
+        }else {
+            loginMapper.insert(session_key,expire);
+        }
         return responseStr;
+    }
+
+    @RequestMapping(value ="/api/user", method = RequestMethod.POST)
+    public ResponseEntity Register(@RequestBody Map<String, String> requestData){
+        String userTelephone = requestData.get("userTelephone");
+        String userOpenid = requestData.get("userOpenid");
+        Integer influened = loginMapper.register(userTelephone,userOpenid);
+        if (influened == 1){
+            responseEntity = responseEntity.success();
+        }else {
+            responseEntity = responseEntity.fail(20002);
+        }
+        return responseEntity;
+    }
+
+    @RequestMapping(value ="/api/user/judge", method = RequestMethod.POST)
+    public ResponseEntity UserJudge(@RequestBody Map<String, String> requestData){
+        String userOpenid = requestData.get("userOpenid");
+        if(loginMapper.existUser(userOpenid) != null){
+            responseEntity = responseEntity.success();
+        }else {
+            responseEntity = responseEntity.fail();
+        }
+        return responseEntity;
     }
 }
