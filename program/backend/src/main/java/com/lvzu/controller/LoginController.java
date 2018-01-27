@@ -66,6 +66,10 @@ public class LoginController {
         String responseStr = HttpRequestUtil.sendGet(url, null);
         Map<String,String> maps = (Map) JSON.parse(responseStr);
         String session_key = maps.get("session_key");
+        String userOpenid = maps.get("openid");
+        String userId = loginMapper.existUser(userOpenid);
+        maps.put("userId",userId);
+        responseStr = JSON.toJSONString(maps);
         long expire = new Date().getTime()+TEN_MINUTES;
         if(loginMapper.exist(session_key) != null){
             loginMapper.update(session_key,expire);
@@ -100,8 +104,8 @@ public class LoginController {
     }
 
     @RequestMapping(value ="/api/test", method = RequestMethod.GET)
-    public List Test(){
-       List<Map<String,String>> temp = testMapper.test();
+    public List Test(@RequestBody Map<String, String> requestData){
+       List<Map<String,String>> temp = testMapper.test(requestData);
         return temp;
     }
 }

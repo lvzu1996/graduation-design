@@ -3,6 +3,8 @@ package com.lvzu.dao;
 import com.lvzu.entity.GroupBannerEntity;
 import com.lvzu.entity.GroupEntity;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.*;
 
 /**
@@ -44,4 +46,10 @@ public interface GroupMapper {
 
     @Delete("DELETE FROM group_banner WHERE groupBannerId =#{groupBannerId}")
     Integer deleteGroupBanner(Integer groupBannerId);
+
+    @Select("SELECT * from user_group where groupId=#{groupId} and userId=#{userId}")
+    List<Map<String,String>> checkGrouped(@Param("groupId") Integer groupId,@Param("userId") Integer userId);
+
+    @Insert("INSERT INTO user_group(userId,groupId,userGroupStartTime) values(#{userGroupMap.get(\"userId\")},#{userGroupMap.get(\"groupId\")},#{userGroupMap.get(\"userGroupStartTime\")})")
+    Integer setUpUserGroup(Map<String,String> userGroupMap);
 }

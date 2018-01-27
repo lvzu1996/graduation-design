@@ -25,7 +25,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
@@ -40,16 +40,22 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "调试个人中心",
-					"pathName": "pages/me/me",
+					"id": 2,
+					"name": "groupdetail",
+					"pathName": "pages/groupdetail/groupdetail",
+					"query": "groupId=16"
+				},
+				{
+					"id": 3,
+					"name": "index",
+					"pathName": "pages/index/index",
 					"query": ""
 				},
 				{
 					"id": -1,
-					"name": "调试groupdetail",
-					"pathName": "pages/login/login",
-					"query": ""
+					"name": "sharedetail",
+					"pathName": "pages/sharedetail/sharedetail",
+					"query": "gorupId=16"
 				}
 			]
 		}

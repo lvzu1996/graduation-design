@@ -34,6 +34,7 @@ public class ResponseEntity {
      *  40006 group not exist
      *  40007 group banner insert fail
      *  40008 group banner delete fail
+     *  40009 user_group user already has this group
      */
 
     private String msg;

@@ -27,4 +27,5 @@ public interface LoginMapper {
 
     @Select("SELECT * FROM user WHERE userOpenid = #{userOpenid}")
     String existUser(@Param("userOpenid") String userOpenid);
+
 }

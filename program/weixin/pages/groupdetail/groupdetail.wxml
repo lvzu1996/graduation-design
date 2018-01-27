@@ -2,7 +2,7 @@
 <view>
     <swiper indicator-dots="true" id="groupdetail-swiper"
     autoplay="true" interval="5000" duration="1000">
-    <view id="swiper-detail">
+    <view id="swiper-detail" class="lv-flex">
         <span style="padding-left:21rpx;">图文详情</span>
     </view>
     <block wx:for="{{bannerUrls}}" wx:key="unique">
@@ -12,19 +12,19 @@
     </block>
     </swiper>
     <view id="detail-menu">
-        <view id="detail-menu-home" bindtap="_toHome">
+        <view id="detail-menu-home" class="lv-flex" bindtap="_toHome">
             <image src="./resource/imgs/home.svg"/>
             <span>首页</span>
         </view>
-        <view id="detail-menu-sole" bindtap="_soleBuy">
+        <view id="detail-menu-sole" class="lv-flex" bindtap="_soleBuy">
             <p>￥{{groupData.classPrice}}</p>
             <p>单独购买</p>
         </view>
-        <view id="detail-menu-group" bindtap="_groupBuy" wx:if="{{groupData.groupType === 1}}">
+        <view class="lv-flex detail-menu-group"bindtap="_groupBuy" wx:if="{{groupData.groupType === 1}}">
              <span>￥{{groupData.groupFavourablePrice}}</span>
             <span>拼团购买</span>
         </view>
-        <view id="detail-menu-group" bindtap="_setUpGroup" wx:if="{{groupData.groupType === 2}}">
+        <view class="lv-flex detail-menu-group" bindtap="showSetup" wx:if="{{groupData.groupType === 2}}">
              <span>￥{{groupData.groupFavourablePrice}}</span>
             <span>发起拼团</span>
         </view>
@@ -71,5 +71,32 @@
     <template is="wxParse" data="{{wxParseData:groupDetail.nodes}}"/>
     </view>
     
+    <view class="setup-group" wx:if="{{showSetUpView}}">
+        <view id="setup-image-view">
+            <image src="{{groupData.groupAvatarUrl}}" mode="aspectFill"></image>
+        </view>
+        <image src="./resource/imgs/x.svg" id="setup-group-x" bindtap="closeSetUpView"></image>
+        <span id="setup-group-price">￥{{groupData.classPrice}}</span>
+        <view class="setup-group-item-body">
+            <view class="setup-group-item">
+                <label>拼团类型</label>
+                <view class="setup-group-item-view lv-flex">满团减人付</view>
+            </view>
+            <view class="setup-group-item">
+                <label>拼团总人数</label>
+                <view class="setup-group-item-view lv-flex">{{groupData.groupCount}}</view>
+            </view>
+            <view class="setup-group-item">
+                <label>满团需付人数</label>
+                <view class="setup-group-item-view lv-flex">{{groupData.groupPayCount}}</view>
+            </view>
+        </view>
+        <view id="setup-group-button">
+            <button bindtap="setupGroup">确 定</button>
+        </view>
+        
+        
+    </view>
+    <view class="modal-backdrop" wx:if="{{showSetUpView}}"></view>
 </view>
 <!--</scroll-view>-->

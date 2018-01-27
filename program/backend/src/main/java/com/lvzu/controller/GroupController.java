@@ -141,4 +141,19 @@ public class GroupController {
         return responseEntity;
     }
 
+    @RequestMapping(value= "/api/group/user_group",method = RequestMethod.GET)
+    public ResponseEntity deleteBanner(@RequestParam("userId") String pUserId,@RequestParam("groupId") String pGroupId) {
+        responseEntity = new ResponseEntity();
+        Integer userId = Integer.valueOf(pUserId);
+        Integer groupId = Integer.valueOf(pGroupId);
+        List data = groupMapper.checkGrouped(groupId,userId);
+        if(data.isEmpty()){
+            responseEntity = responseEntity.success();
+        }else {
+            responseEntity = responseEntity.fail(40009);
+        }
+        return responseEntity;
+    }
+
+
 }

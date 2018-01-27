@@ -1,4 +1,5 @@
 const app = getApp()
+import CONFIG from '../globalConfig.js'
 import {login} from '../../utils/login.js'
 Page({
     data: {
@@ -36,7 +37,7 @@ Page({
         }
         // 获取拼团列表信息
         wx.request({
-            url: 'http://localhost:8080/api/groups', //仅为示例，并非真实的接口地址
+            url: CONFIG.requestUrl+'/groups', //仅为示例，并非真实的接口地址
             header: {
                 'content-type': 'application/json' // 默认值
             },

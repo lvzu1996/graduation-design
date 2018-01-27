@@ -20,6 +20,7 @@ function login(){
                         success: function (res) {
                             app.globalData.openid = res.data.openid
                             app.globalData.session_key = res.data.session_key
+                            app.globalData.userId = res.data.userId
                             console.log(res)
                         }
                     })

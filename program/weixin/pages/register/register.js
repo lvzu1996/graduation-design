@@ -1,5 +1,6 @@
 const app = getApp()
 import {login} from '../../utils/login.js'
+import CONFIG from '../globalConfig.js'
 Page({
     data:{
       type:'',
@@ -48,7 +49,7 @@ Page({
     _register:function(){
       const _this = this
       wx.request({
-        url: 'http://localhost:8080/api/user', //仅为示例，并非真实的接口地址
+        url: CONFIG.requestUrl+'/user', //仅为示例，并非真实的接口地址
         method: 'POST',
         header: {
           'content-type': 'application/json' // 默认值
@@ -73,10 +74,14 @@ Page({
           }
         },
         fail:function(res){
-          wx.showToast({
-            title:'注册失败',
-            icon:'none',
-            duration:2000
+          wx.showModal({
+            title: '提示',
+            content: '注册失败！',
+            showCancel: false,
+            confirmColor: '#6DC1D2',
+            success: function (res) {
+              wx.navigateBack({ delta: 1 })
+            }
           })
         }
       })
