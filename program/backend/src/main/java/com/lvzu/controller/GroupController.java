@@ -2,12 +2,13 @@ package com.lvzu.controller;
 
 import com.lvzu.controller.requestBody.GroupRequest;
 import com.lvzu.dao.GroupMapper;
-import com.lvzu.entity.GroupBannerEntity;
-import com.lvzu.entity.GroupEntity;
-import com.lvzu.entity.ResponseEntity;
+import com.lvzu.entity.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public class GroupController {
     private GroupMapper groupMapper;
 
     private ResponseEntity responseEntity;
+
     @RequestMapping(value= "/api/groups",method = RequestMethod.GET)
     public ResponseEntity Get() {
         List<GroupEntity> groups= groupMapper.getAll();
@@ -141,16 +143,63 @@ public class GroupController {
         return responseEntity;
     }
 
-    @RequestMapping(value= "/api/group/user_group",method = RequestMethod.GET)
-    public ResponseEntity deleteBanner(@RequestParam("userId") String pUserId,@RequestParam("groupId") String pGroupId) {
+    @RequestMapping(value= "/api/group/user_group",method = RequestMethod.POST)
+    public ResponseEntity setUpUserGroup(@RequestBody Map<String, String> requestData) {
         responseEntity = new ResponseEntity();
-        Integer userId = Integer.valueOf(pUserId);
-        Integer groupId = Integer.valueOf(pGroupId);
+        Integer userId = Integer.valueOf(requestData.get("userId"));
+        Integer groupId = Integer.valueOf(requestData.get("groupId"));
+        String userName = requestData.get("userName");
+        String className = requestData.get("className");
         List data = groupMapper.checkGrouped(groupId,userId);
+        String attendUserAvatarUrl = requestData.get("attendUserAvatarUrl");
+        // 判断该用户未发起这个拼团
         if(data.isEmpty()){
-            responseEntity = responseEntity.success();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String userGroupStartTime = df.format(new Date());
+            Integer influenced = groupMapper.setUpUserGroup(userId,groupId,userGroupStartTime,userName,className);
+            if (influenced == 1){
+                Integer userGroupId = groupMapper.getUserGroupId(userId,groupId);
+                //该用户自身加入拼团
+                groupMapper.attendUserGroup(userGroupId,userId,userName,userId,userName,userGroupStartTime,attendUserAvatarUrl,className);
+                responseEntity = responseEntity.success(userGroupId);
+            }else{
+                responseEntity = responseEntity.fail(40010);
+            }
         }else {
             responseEntity = responseEntity.fail(40009);
+        }
+
+        return responseEntity;
+    }
+
+    @RequestMapping(value= "/api/group/user_group",method = RequestMethod.GET)
+    public ResponseEntity getUserGroup(@RequestParam("userGroupId") Integer userGroupId){
+        responseEntity = new ResponseEntity();
+        List<UserGroupMemberEntity> UserGroupMemberEntityList = groupMapper.getUserGroupMember(userGroupId);
+        return responseEntity.success(UserGroupMemberEntityList);
+    }
+
+    @RequestMapping(value= "/api/group/user_group_member",method = RequestMethod.POST)
+    public ResponseEntity attendUserGroup(@RequestBody Map<String, String> requestData) {
+        responseEntity = new ResponseEntity();
+        Integer attendUserId = Integer.valueOf(requestData.get("attendUserId"));
+        Integer userGroupId = Integer.valueOf(requestData.get("userGroupId"));
+        String attendUserAvatarUrl = requestData.get("attendUserAvatarUrl");
+        String attendUserName = requestData.get("attendUserName");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String attendTime = df.format(new Date());
+        //判断该拼团是否已经加入
+        if(groupMapper.existAttender(userGroupId,attendUserId) != null){
+            return ResponseEntity.fail(40012);
+        }
+        String userName = groupMapper.getCreatorId(userGroupId).get(0).get("userName").toString();
+        Integer userId = Integer.valueOf(groupMapper.getCreatorId(userGroupId).get(0).get("userId").toString());
+        String className = groupMapper.getCreatorId(userGroupId).get(0).get("className").toString();
+        Integer influenced = groupMapper.attendUserGroup(userGroupId,userId,userName,attendUserId,attendUserName,attendTime,attendUserAvatarUrl,className);
+        if (influenced == 1){
+            responseEntity = responseEntity.success();
+        }else {
+            responseEntity = responseEntity.fail(40011);
         }
         return responseEntity;
     }

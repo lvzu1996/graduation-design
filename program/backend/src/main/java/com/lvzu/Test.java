@@ -7,6 +7,8 @@ import com.lvzu.service.CourseService;
 import com.lvzu.utils.SHA1;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zhibinglv on 2018/1/6.
@@ -14,9 +16,9 @@ import javax.annotation.Resource;
 public class Test {
 
     public static void main(String[] args) {
-        SHA1 sha1 = new SHA1();
-        String a = "123";
-        System.out.println(sha1.encode(a));
+        Map<String,String> map = new HashMap<>();
+        map.put("haha","haha");
+        System.out.println(map.get("haha"));
     }
     public static class TTEST{
         private CourseMapper courseMapper;

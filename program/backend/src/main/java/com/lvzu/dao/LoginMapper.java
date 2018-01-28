@@ -22,8 +22,8 @@ public interface LoginMapper {
     @Update("Update wx_session set expire=#{expire} WHERE session_key =#{session_key}")
     Integer update(@Param("session_key") String session_key,@Param("expire") long expire);
 
-    @Insert("INSERT INTO user(userTelephone,userOpenid) VALUES(#{userTelephone},#{userOpenid})")
-    Integer register(@Param("userTelephone") String userTelephone,@Param("userOpenid") String userOpenid);
+    @Insert("INSERT INTO user(userTelephone,userOpenid,userName,userGender) VALUES(#{userTelephone},#{userOpenid},#{userName},#{userGender})")
+    Integer register(@Param("userTelephone") String userTelephone,@Param("userOpenid") String userOpenid,@Param("userName") String userName,@Param("userGender") String userGender);
 
     @Select("SELECT * FROM user WHERE userOpenid = #{userOpenid}")
     String existUser(@Param("userOpenid") String userOpenid);

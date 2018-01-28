@@ -6,6 +6,7 @@ import com.lvzu.dao.LoginMapper;
 import com.lvzu.dao.TestMapper;
 import com.lvzu.entity.ManagerEntity;
 import com.lvzu.entity.ResponseEntity;
+import com.lvzu.entity.UserGroupEntity;
 import com.lvzu.utils.HttpRequestUtil;
 import com.lvzu.utils.SHA1;
 import org.springframework.web.bind.annotation.*;
@@ -83,7 +84,9 @@ public class LoginController {
     public ResponseEntity Register(@RequestBody Map<String, String> requestData){
         String userTelephone = requestData.get("userTelephone");
         String userOpenid = requestData.get("userOpenid");
-        Integer influened = loginMapper.register(userTelephone,userOpenid);
+        String userName = requestData.get("userName");
+        String userGender = requestData.get("userGender");
+        Integer influened = loginMapper.register(userTelephone,userOpenid,userName,userGender);
         if (influened == 1){
             responseEntity = responseEntity.success();
         }else {
@@ -104,8 +107,8 @@ public class LoginController {
     }
 
     @RequestMapping(value ="/api/test", method = RequestMethod.GET)
-    public List Test(@RequestBody Map<String, String> requestData){
-       List<Map<String,String>> temp = testMapper.test(requestData);
-        return temp;
+    public Object Test(){
+       List<Map> temp = testMapper.test(7);
+        return temp.get(0).get("userId");
     }
 }

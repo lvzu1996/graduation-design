@@ -35,6 +35,9 @@ public class ResponseEntity {
      *  40007 group banner insert fail
      *  40008 group banner delete fail
      *  40009 user_group user already has this group
+     *  40010 user_group create fail
+     *  40011 user_group attend fail
+     *  40012 user_group already attend
      */
 
     private String msg;

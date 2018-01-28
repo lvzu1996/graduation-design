@@ -56,7 +56,9 @@ Page({
         },
         data: {
           userOpenid:app.globalData.openid,
-          userTelephone:_this.userTelephone
+          userTelephone:_this.userTelephone,
+          userName:app.globalData.userInfo.nicknName,
+          userGender:app.globalData.userInfo.gender
         },
         success: function (res) {
           if(res.data.msg){

@@ -26,7 +26,7 @@ function getWindowW() {
 
 function loadingNav(msg,timeout,url){
   wx.showLoading({
-    title: '正在发送验证码',
+    title: msg,
     duration:timeout
   })
   setTimeout(() => {

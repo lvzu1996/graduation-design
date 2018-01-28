@@ -5,6 +5,8 @@ import com.lvzu.entity.GroupEntity;
 import java.util.List;
 import java.util.Map;
 
+import com.lvzu.entity.UserGroupEntity;
+import com.lvzu.entity.UserGroupMemberEntity;
 import org.apache.ibatis.annotations.*;
 
 /**
@@ -50,6 +52,22 @@ public interface GroupMapper {
     @Select("SELECT * from user_group where groupId=#{groupId} and userId=#{userId}")
     List<Map<String,String>> checkGrouped(@Param("groupId") Integer groupId,@Param("userId") Integer userId);
 
-    @Insert("INSERT INTO user_group(userId,groupId,userGroupStartTime) values(#{userGroupMap.get(\"userId\")},#{userGroupMap.get(\"groupId\")},#{userGroupMap.get(\"userGroupStartTime\")})")
-    Integer setUpUserGroup(Map<String,String> userGroupMap);
+    @Insert("INSERT INTO user_group(userId,groupId,userGroupStartTime,userName,className) values(#{userId},#{groupId},#{userGroupStartTime},#{userName},#{className})")
+    @Options(useGeneratedKeys=true, keyProperty="userId")
+    Integer setUpUserGroup(@Param("userId") Integer userId,@Param("groupId") Integer groupId,@Param("userGroupStartTime") String userGroupStartTime,@Param("userName") String userName,@Param("className") String className);
+
+    @Select("SELECT * FROM user_group_member where userGroupId=#{userGroupId}")
+    List<UserGroupMemberEntity> getUserGroupMember(@Param("userGroupId") Integer userGroupId);
+
+    @Select("SELECT * FROM user_group where userId=#{userId} and groupId = #{groupId}")
+    Integer getUserGroupId(@Param("userId") Integer userId,@Param("groupId") Integer groupId);
+
+    @Insert("INSERT INTO user_group_member(userGroupId,userId,userName,attendUserId,attendUserName,attendTime,attendUserAvatarUrl,className) VALUES(#{userGroupId},#{userId},#{userName},#{attendUserId},#{attenUserName},#{attendTime},#{attendUserAvatarUrl},#{className})")
+    Integer attendUserGroup(@Param("userGroupId") Integer userGroupId,@Param("userId") Integer userId,@Param("userName") String userName,@Param("attendUserId") Integer attendUserId,@Param("attenUserName") String attenUserName,@Param("attendTime") String attendUser,@Param("attendUserAvatarUrl") String attendUserAvatarUrl,@Param("className") String className);
+
+    @Select("SELECT * FROM user_group where userGroupId=#{userGroupId}")
+    List<Map> getCreatorId(@Param("userGroupId") Integer userGroupId);
+
+    @Select("SELECT * FROM user_group_member where userGroupId=#{userGroupId} and attendUserId=#{attendUserId}")
+    Integer existAttender(@Param("userGroupId") Integer userGroupId,@Param("attendUserId") Integer attendUserId);
 }

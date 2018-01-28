@@ -7,7 +7,7 @@ Page({
     groupData: {},
     bannerUrls: [],
     groupId: 0,
-    showSetUpView:true
+    showSetUpView:false
   },
   onLoad: function (options) {
     login()
@@ -121,13 +121,16 @@ Page({
             }else {
               wx.request({
                 url: CONFIG.requestUrl + '/group/user_group', //仅为示例，并非真实的接口地址
-                method: 'GET',
+                method: 'POST',
                 header: {
                   'content-type': 'application/json' // 默认值
                 },
                 data: {
                   userId: app.globalData.userId,
-                  groupId:_this.groupData.groupId
+                  groupId:_this.groupData.groupId,
+                  userName:app.globalData.userInfo.nickName,
+                  attendUserAvatarUrl:app.globalData.userInfo.avatarUrl,
+                  className:_this.groupData.className
                 },
                 success: function (res) {
                   if (res.data.msg == 'fail') {
@@ -142,8 +145,9 @@ Page({
                     })
                   } else {
                     //新建一个user_group
-                    //user_grou_member新建一个本人
+                    //user_grou_member新加一个本人
                     //跳转到新页面
+                    wx.loadingNav('正在跳转分享页', 1200, `/pages/share/share?userGroupId=${res.data.data}`)
                   }
                 },
               })

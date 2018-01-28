@@ -1,9 +1,11 @@
 package com.lvzu.dao;
 
+import com.lvzu.entity.UserGroupEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,6 @@ public interface TestMapper {
 //    @Select("SELECT * from course where 1=1")
 //    List<Map<String,String>> test();
 
-    @Insert("INSERT INTO user_group(userId,groupId,userGroupStartTime) values(#{userGroupMap.get(\"userId\")},#{userGroupMap.get(\"groupId\")},#{userGroupMap.get(\"userGroupStartTime\")})")
-    List<Map<String,String>> test(Map<String,String> userGroupMap);
+    @Select("SELECT * FROM user_group where userGroupId=#{userGroupId}")
+    List<Map> test(@Param("userGroupId") Integer userGroupId);
 }

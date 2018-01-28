@@ -1,6 +1,7 @@
 package com.lvzu.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by zhibinglv on 2018/1/27.
@@ -14,12 +15,12 @@ public class UserGroupEntity {
     private String groupType;
     private Integer groupFavourablePrice;
     private Integer groupPayCount;
-    private Date userGroupStartTime;
-    private Date userGroupEndTime;
+    private Timestamp userGroupStartTime;
+    private Timestamp userGroupEndTime;
     private Integer groupCount;
     private String groupEndType;
 
-    public UserGroupEntity(Date userGroupStartTime, Integer groupId, Integer userId) {
+    public UserGroupEntity(Timestamp userGroupStartTime, Integer groupId, Integer userId) {
         this.userGroupStartTime = userGroupStartTime;
         this.groupId = groupId;
         this.userId = userId;
@@ -89,19 +90,19 @@ public class UserGroupEntity {
         this.groupPayCount = groupPayCount;
     }
 
-    public Date getUserGroupStartTime() {
+    public Timestamp getUserGroupStartTime() {
         return userGroupStartTime;
     }
 
-    public void setUserGroupStartTime(Date userGroupStartTime) {
+    public void setUserGroupStartTime(Timestamp userGroupStartTime) {
         this.userGroupStartTime = userGroupStartTime;
     }
 
-    public Date getUserGroupEndTime() {
+    public Timestamp getUserGroupEndTime() {
         return userGroupEndTime;
     }
 
-    public void setUserGroupEndTime(Date userGroupEndTime) {
+    public void setUserGroupEndTime(Timestamp userGroupEndTime) {
         this.userGroupEndTime = userGroupEndTime;
     }
 
@@ -121,7 +122,7 @@ public class UserGroupEntity {
         this.groupEndType = groupEndType;
     }
 
-    public UserGroupEntity(Integer userGroupId, Integer userId, String userName, String className, Integer groupId, String groupType, Integer groupFavourablePrice, Integer groupPayCount, Date userGroupStartTime, Date userGroupEndTime, Integer groupCount, String groupEndType) {
+    public UserGroupEntity(Integer userGroupId, Integer userId, String userName, String className, Integer groupId, String groupType, Integer groupFavourablePrice, Integer groupPayCount, Timestamp userGroupStartTime, Timestamp userGroupEndTime, Integer groupCount, String groupEndType) {
 
         this.userGroupId = userGroupId;
         this.userId = userId;
