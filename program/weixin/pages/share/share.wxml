@@ -2,7 +2,7 @@
     <image src="./imgs/share.png" 
     id="backgroud-img"
     mode="widthFix"></image>
-    <button type="primary" id="attend-btn">参加拼团</button>
+    <button type="primary" id="attend-btn" bindtap="attendUserGroup">参 加 拼 团</button>
     <view id="attend-body">
         <view id="attend-title">
             ------ 已参加拼团的成员 ------

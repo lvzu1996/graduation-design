@@ -13,7 +13,7 @@
     width: 80%;
     left: 10%;
     line-height: 70rpx;
-    background-color: #336699;
+    background-color: #67C23A;
 }
 
 #attend-body {

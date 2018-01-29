@@ -5,8 +5,6 @@ function login(){
         wx.login({
             success: function (res) {
                 if (res.code) {
-                    //发起网络请求
-                    console.log(res.code)
                     // 获取拼团列表信息
                     wx.request({
                         url: 'http://localhost:8080/api/wxlogin', //仅为示例，并非真实的接口地址
