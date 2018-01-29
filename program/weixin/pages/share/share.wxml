@@ -10,7 +10,7 @@
         <scroll-view id="groupmember-list" scroll-y style="width: 80%">
             <view wx:for="{{groupMemberListData}}" wx:key="unique" class="groupmember-single">
                 <view class="groupmember-avatar">
-                    <image src="{{item.attendUserAvatarUrl}}" mode="aspectFill"></image>
+                    <image src="{{item.attendUserAvatarUrl}}" mode="aspectFill" lazy-load="true" alt="没头像"></image>
                 </view>
                 <view class="groupmember-msg-class">
                     <view class="groupmember-msg">

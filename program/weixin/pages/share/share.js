@@ -14,14 +14,21 @@ Page({
     onLoad: function (options) {
         //检查登录态
         login()
-        
+        this.getUserGroupMember(options.userGroupId)
+        //设置可以转发
+        wx.showShareMenu({
+            withShareTicket: true
+        })
+    },
+
+    getUserGroupMember:function(userGroupId){
         const _this = this
-        _this.userGroupId = options.userGroupId
+        _this.userGroupId = userGroupId
         _this.setData({
-            userGroupId: options.userGroupId
+            userGroupId: userGroupId
         })
         wx.request({
-            url: CONFIG.requestUrl + `/group/user_group?userGroupId=${options.userGroupId}`,
+            url: CONFIG.requestUrl + `/group/user_group?userGroupId=${userGroupId}`,
             method: "GET",
             header: {
                 'content-type': 'application/json' // 默认值
@@ -32,10 +39,6 @@ Page({
                     groupMemberListData: res.data.data
                 })
             }
-        })
-        //设置可以转发
-        wx.showShareMenu({
-            withShareTicket: true
         })
     },
 
@@ -85,13 +88,20 @@ Page({
                                     },
                                     data: {
                                         attendUserId: app.globalData.userId,
-                                        attendUserName: app.globalData.nickName,
+                                        attendUserName: app.globalData.userInfo.nickName,
                                         userGroupId: _this.userGroupId,
-                                        attendUserAvatarUrl: app.globalData.userInfo.avatarUrl
+                                        attendUserAvatarUrl: app.globalData.userInfo.avatarUrl||''
                                     },
                                     success: function (res) {
                                         if (res.data.msg == "success") {
-                                            wx.loadingNav('拼团成功！', 1200, '/pages/index/index')
+                                            // wx.loadingNav('拼团成功！', 1200, '/pages/index/index')
+                                            wx.showLoading({
+                                                title:'拼团成功！',
+                                                duration:2000
+                                            })
+                                            setTimeout(() => {
+                                                _this.getUserGroupMember(_this.userGroupId)
+                                            },2000)
                                         } else {
                                             if (res.data.error_num == "40012") {
                                                 wx.showModal({
