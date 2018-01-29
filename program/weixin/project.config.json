@@ -55,7 +55,7 @@
 					"id": 4,
 					"name": "share",
 					"pathName": "pages/share/share",
-					"query": "userGroupId=17"
+					"query": "userGroupId=18"
 				}
 			]
 		}

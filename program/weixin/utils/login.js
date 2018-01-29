@@ -1,4 +1,5 @@
 var app = getApp()
+import CONFIG from '../pages/globalConfig.js'
 
 function login(){
     if(!app.globalData.openid){
@@ -7,7 +8,7 @@ function login(){
                 if (res.code) {
                     // 获取拼团列表信息
                     wx.request({
-                        url: 'http://localhost:8080/api/wxlogin', //仅为示例，并非真实的接口地址
+                        url: CONFIG.requestUrl + '/wxlogin', //仅为示例，并非真实的接口地址
                         method: 'POST',
                         header: {
                             'content-type': 'application/json' // 默认值
@@ -19,7 +20,7 @@ function login(){
                             app.globalData.openid = res.data.openid
                             app.globalData.session_key = res.data.session_key
                             app.globalData.userId = res.data.userId
-                            console.log(res)
+                            // console.log(res)
                         }
                     })
                 } else {

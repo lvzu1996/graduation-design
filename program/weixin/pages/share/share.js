@@ -46,7 +46,7 @@ Page({
             console.log(res.target)
         }
         return {
-            title: '自定义转发标题',
+            title: '网易极客少年邀您家孩子学编程啦！',
             path: `/page/share/share?userGroupId=${_this.userGroupId}`,
             success: function (res) {
                 // 转发成功
