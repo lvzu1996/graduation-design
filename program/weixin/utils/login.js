@@ -1,5 +1,5 @@
 var app = getApp()
-import CONFIG from '../pages/globalConfig.js'
+import CONFIG from '../config.js'
 
 function login(){
     if(!app.globalData.userInfo){

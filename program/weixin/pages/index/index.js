@@ -1,5 +1,5 @@
 const app = getApp()
-import CONFIG from '../globalConfig.js'
+import CONFIG from '../../config.js'
 import {login} from '../../utils/login.js'
 Page({
     data: {

@@ -1,5 +1,5 @@
 var WxParse = require('../../wxParse/wxParse.js');
-import CONFIG from '../globalConfig.js'
+import CONFIG from '../../config.js'
 import {login} from '../../utils/login.js'
 const app = getApp()
 Page({
