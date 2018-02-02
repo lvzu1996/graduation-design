@@ -1,10 +1,15 @@
 service apache2 stop
 
+# 运行docker image
 docker run -p 8080:8080 -t lvzu1996/backend:latest
 
+# 手动停止nignx
 ps -ef | grep nginx
 kill -quit xxx
 
+# 启动nginx进程
 nginx -c /usr/local/nginx/nginx.conf
 nginx -s reload
 
+# 停止nginx进程
+kill -quit $(ps -ef |grep nginx | grep -v grep | awk '{print $2}')
