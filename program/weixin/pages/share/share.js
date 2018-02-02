@@ -3,8 +3,8 @@ import {
 } from './memberListData.js'
 import CONFIG from '../../config.js'
 import {
-    login
-} from '../../utils/login.js'
+    checkLoginState
+} from '../../utils/checkLoginState.js'
 const app = getApp()
 Page({
     data: {
@@ -13,7 +13,7 @@ Page({
     },
     onLoad: function (options) {
         //检查登录态
-        login()
+        wx.checkLoginState()
         this.getUserGroupMember(options.userGroupId)
         //设置可以转发
         wx.showShareMenu({

@@ -1,5 +1,11 @@
+/** 
+ * 本文件用于新用户的注册
+ * 目前的入口有
+ * 发起拼团前 before_buy
+ * 加入别人分享的拼团 before_attend_user_group
+ */
 const app = getApp()
-import {login} from '../../utils/login.js'
+import { checkLoginState } from '../../utils/checkLoginState.js'
 import CONFIG from '../../config.js'
 Page({
     data:{
@@ -8,7 +14,9 @@ Page({
       verifyCode:''
     },
     onLoad : function(options){
-      login()
+      //检查登录态
+      wx.checkLoginState()
+      //获取页面进入类型
       this.type = options.type
       this.setData({
         type:options.type
@@ -29,6 +37,7 @@ Page({
       }
       return true
     },
+    // 获取验证码，模拟
     _getVerifyCode:function(){
       console.log(1)
       if(!this._testPhone()){
@@ -46,8 +55,16 @@ Page({
         })
       }, 2000)
     },
+    /**
+     * 点击注册按钮的事件
+     * 大致过程如下
+     * 1.先验证手机号是否注册
+     * 2.未注册则注册号码，注册完成后获取登录态
+     * 3.跳转至上一页面
+     */
     _register:function(){
       const _this = this
+      //检查是否已注册
       wx.request({
         url: CONFIG.requestUrl+'/user', //仅为示例，并非真实的接口地址
         method: 'POST',
@@ -63,7 +80,7 @@ Page({
         success: function (res) {
           if(res.data.msg){
             if(_this.type == 'before_buy'){
-              wx.lvlogin(() => {
+              wx.checkLoginState(() => {
                 wx.showLoading({
                   title: '注册成功',
                   duration:2000
@@ -76,7 +93,7 @@ Page({
               })
             }
             if(_this.type == 'before_attend_user_group'){
-              wx.lvlogin(() => {
+              wx.checkLoginState(() => {
                 wx.showLoading({
                   title: '注册成功',
                   duration:2000

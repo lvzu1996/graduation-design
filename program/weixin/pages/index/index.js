@@ -1,6 +1,9 @@
+/**
+ * 此文件控制拼团列表页逻辑
+ */
 const app = getApp()
 import CONFIG from '../../config.js'
-import {login} from '../../utils/login.js'
+import { checkLoginState } from '../../utils/checkLoginState.js'
 Page({
     data: {
         grouplist: []
@@ -8,7 +11,7 @@ Page({
 
     onLoad: function () {
         const _this = this;
-        login()
+        wx.checkLoginState()
         if (app.globalData.userInfo) {
             this.setData({
                 userInfo: app.globalData.userInfo,

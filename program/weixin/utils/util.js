@@ -36,25 +36,7 @@ function loadingNav(msg,timeout,url){
   },timeout)
 }
 
-function sData(key,value,t){
-  t[key] = value
-  t.setData({
-    key:value
-  })
-}
-
-function sDataList(keyList,valueList,t){
-  var newObj = {}
-  for(let i = 0 ; i < keyList ; i ++){
-    t[keyList[i]] = valueList[i]
-    newObj[keyList[i]] = valueList[i]
-  }
-  t.setData(newObj)
-}
-
 wx.loadingNav = loadingNav
-wx.sData = sData
-wx.sDataList = sDataList
 
 module.exports = {
   formatTime: formatTime,

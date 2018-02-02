@@ -1,7 +1,12 @@
+/**
+ * 该文件用于获取用户基本信息
+ * 分为 用户基础信息（微信信息）和 后端账号 userID
+ */
 var app = getApp()
 import CONFIG from '../config.js'
 
-function login(callback){
+function checkLoginState(callback){
+    //若没有用户信息则获取
     if(!app.globalData.userInfo){
         wx.getUserInfo({
             success: res => {
@@ -9,6 +14,7 @@ function login(callback){
             }
         })
     }
+    // 若没有openid或userId中的任意一个
     if(!app.globalData.openid || !app.globalData.userId){
         wx.login({
             success: function (res) {
@@ -42,7 +48,9 @@ function login(callback){
     }
     
 }
-wx.lvlogin = login
+//注册全局变量
+wx.checkLoginState = checkLoginState
+
 module.exports = {
-    login:login
+    checkLoginState: checkLoginState
 }
