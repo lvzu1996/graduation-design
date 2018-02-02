@@ -1,0 +1,10 @@
+service apache2 stop
+
+docker run -p 8080:8080 -t lvzu1996/backend:latest
+
+ps -ef | grep nginx
+kill -quit xxx
+
+nginx -c /usr/local/nginx/nginx.conf
+nginx -s reload
+

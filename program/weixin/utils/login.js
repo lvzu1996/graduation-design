@@ -1,7 +1,7 @@
 var app = getApp()
 import CONFIG from '../config.js'
 
-function login(){
+function login(callback){
     if(!app.globalData.userInfo){
         wx.getUserInfo({
             success: res => {
@@ -9,7 +9,7 @@ function login(){
             }
         })
     }
-    if(!app.globalData.openid){
+    if(!app.globalData.openid || !app.globalData.userId){
         wx.login({
             success: function (res) {
                 if (res.code) {
@@ -29,6 +29,9 @@ function login(){
                             app.globalData.session_key = res.data.session_key
                             app.globalData.userId = res.data.userId
                             // console.log(res)
+                            if(typeof(callback) == 'function'){
+                                callback()  
+                            } 
                         }
                     })
                 } else {
@@ -37,8 +40,9 @@ function login(){
             }
         });
     }
+    
 }
-
+wx.lvlogin = login
 module.exports = {
     login:login
 }

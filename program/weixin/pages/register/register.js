@@ -63,26 +63,30 @@ Page({
         success: function (res) {
           if(res.data.msg){
             if(_this.type == 'before_buy'){
-              wx.showLoading({
-                title: '注册成功',
-                duration:2000
-              })
-              setTimeout(()=>{
-                wx.navigateBack({
-                  delta: 1, // 回退前 delta(默认为1) 页面
+              wx.lvlogin(() => {
+                wx.showLoading({
+                  title: '注册成功',
+                  duration:2000
                 })
-              },2000)
+                setTimeout(()=>{
+                  wx.navigateBack({
+                    delta: 1, // 回退前 delta(默认为1) 页面
+                  })
+                },2000)
+              })
             }
             if(_this.type == 'before_attend_user_group'){
-              wx.showLoading({
-                title: '注册成功',
-                duration:2000
-              })
-              setTimeout(()=>{
-                wx.navigateBack({
-                  delta: 1, // 回退前 delta(默认为1) 页面
+              wx.lvlogin(() => {
+                wx.showLoading({
+                  title: '注册成功',
+                  duration:2000
                 })
-              },2000)
+                setTimeout(()=>{
+                  wx.navigateBack({
+                    delta: 1, // 回退前 delta(默认为1) 页面
+                  })
+                },2000)
+              })
             }
           }
         },
