@@ -67,7 +67,7 @@
 
 
     <view class="detail-explain">
-        <span>商品详情</span>
+        <span style="margin-left:20rpx;font-size: 30rpx;margin-top: 10rpx;">商品详情:</span>
     <template is="wxParse" data="{{wxParseData:groupDetail.nodes}}"/>
     </view>
     

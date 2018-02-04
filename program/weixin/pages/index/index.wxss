@@ -21,7 +21,7 @@
 }
 
 .getgroup-singlelist{
-    padding-top: 20rpx;
+    /* padding-top: 20rpx; */
     position: relative;
     width: 100%;
     display: flex;
@@ -41,7 +41,7 @@
     text-align: center;
     width: 140rpx;
     font-size: 30rpx;
-    top:45rpx;
+    top:80rpx;
     height:60rpx;
     justify-content: center;
     align-items: center;
@@ -49,12 +49,12 @@
 }
 
 .getgroup-singlelist  image{
-    width: 60%;
+    width:100%;
 }
 
 .singlelist-text{
     text-align: left;
-    width: 100%;
+    width: 95%;
     margin-top: 20rpx;
     font-size: 30rpx;
 }

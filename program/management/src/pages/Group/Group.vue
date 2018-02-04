@@ -31,11 +31,17 @@
               <el-form-item label="拼团种类:">
                 <span>{{ props.row.groupType==1?'优惠拼团':'满团减人拼团' }}</span>
               </el-form-item>
-              <el-form-item label="优惠价格" v-if="props.row.groupType == 1">
-                <span>{{ props.row.groupFavourablePrice }}</span>
+              <el-form-item label="满团人数">
+                <span>{{ props.row.groupCount }}</span>
               </el-form-item>
               <el-form-item label="满付人数" v-if="props.row.groupType == 2">
                 <span>{{ props.row.groupPayCount }}</span>
+              </el-form-item>
+              <el-form-item label="优惠价格" v-if="props.row.groupType == 1">
+                <span>{{ props.row.groupFavourablePrice }}</span>
+              </el-form-item>
+              <el-form-item label="拼团简介">
+                <span>{{ props.row.groupIntro }}</span>
               </el-form-item>
             </el-form>
           </template>

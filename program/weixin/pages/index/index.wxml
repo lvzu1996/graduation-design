@@ -13,7 +13,7 @@
             <view class="singlelist-text">{{item.groupIntro}}</view>
             <view class="singlelist-detailinfo">
                 <view>
-                    <span class="singlelist-price">￥{{item.groupFavourablePrice}}</span>
+                    <span class="singlelist-price">￥{{item.groupShowPrice}}</span>
                     <span class="singlelist-count">已团1221件</span>
                 </view>
                 <button bindtap="_setupGroup" data-groupId="{{item.groupId}}"> 去开团 </button>

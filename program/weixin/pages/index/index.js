@@ -46,13 +46,23 @@ Page({
             },
             success: function (res) {
                 console.log(res)
-                _this.grouplist = res.data.data
+                _this.grouplist = _this._handleGroupsDataList(res.data.data)
                 _this.setData({
-                    grouplist: res.data.data
+                    grouplist: _this.grouplist
                 })
             }
         })
 
+    },
+    _handleGroupsDataList:function(data){
+        for(let i of data){
+            if(i.groupType == 1){
+                i.groupShowPrice = i.groupFavourablePrice
+            }else{
+                i.groupShowPrice = Math.ceil(i.classPrice * i.groupPayCount / i.groupCount)
+            }
+        }
+        return data
     },
     getUserInfo: function (e) {
         app.globalData.userInfo = e.detail.userInfo
