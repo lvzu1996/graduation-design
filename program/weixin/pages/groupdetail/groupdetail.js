@@ -84,7 +84,7 @@ Page({
       // console.log(res.target)
     }
     return {
-      title: '自定义转发标题',
+      title: _this.groupData.groupIntro,
       path: '/pages/groupdetail/groupdetail?id=' + _this.id,
       success: function (res) {
         // 转发成功
