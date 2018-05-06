@@ -2,7 +2,7 @@
   <div id="operation">
     <el-col :span="12" style="width:203px;">
     <el-menu
-      default-active="2"
+      default-active="1"
       class="el-menu-vertical-demo"
       @select="_navigateTo"
       background-color="#eef1f6">

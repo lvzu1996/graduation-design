@@ -11,7 +11,7 @@ var prefix = ''
 //   prefix = 'https://world-elite.site'
 // }
 prefix = 'http://127.0.0.1:8080/api'
-prefix = 'https://world-elite.site/api'
+// prefix = 'https://world-elite.site/api'
 
 DBF.create('LOGIN', {
     // 登录api
