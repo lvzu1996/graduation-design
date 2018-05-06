@@ -5,8 +5,9 @@
  * 加入别人分享的拼团 before_attend_user_group
  */
 const app = getApp()
-import { checkLoginState } from '../../utils/checkLoginState.js'
 import CONFIG from '../../config.js'
+import { checkLoginState } from '../../utils/checkLoginState.js'
+
 Page({
     data:{
       type:'',
@@ -39,21 +40,25 @@ Page({
     },
     // 获取验证码，模拟
     _getVerifyCode:function(){
-      console.log(1)
+      var _this = this
       if(!this._testPhone()){
         return
       }
       wx.showLoading({
         title: '正在发送验证码',
       })
-      setTimeout(function () {
-        wx.hideLoading()
-        wx.showToast({
-          title: '发送成功',
-          icon: 'success',
-          duration: 2000
-        })
-      }, 2000)
+      // 获取拼团列表信息
+      wx.request({
+        url: CONFIG.requestUrl + `/register?telephone=${_this.userTelephone}`, //仅为示例，并非真实的接口地址
+        success: function (res) {
+          wx.hideLoading()
+          wx.showToast({
+            title: '发送成功',
+            icon: 'success',
+            duration: 2000
+          })
+        }
+      })
     },
     /**
      * 点击注册按钮的事件
@@ -64,6 +69,17 @@ Page({
      */
     _register:function(){
       const _this = this
+      if (this.verifyCode !=6826){
+        wx.showModal({
+          title: '提示',
+          content: '验证码错误！',
+          showCancel: false,
+          confirmColor: '#6DC1D2',
+          success: function (res) {
+            wx.navigateBack({ delta: 1 })
+          }
+        })
+      }
       //检查是否已注册
       wx.request({
         url: CONFIG.requestUrl+'/user', //仅为示例，并非真实的接口地址

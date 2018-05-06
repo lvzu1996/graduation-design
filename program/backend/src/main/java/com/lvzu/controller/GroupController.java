@@ -1,8 +1,10 @@
 package com.lvzu.controller;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.lvzu.controller.requestBody.GroupRequest;
 import com.lvzu.dao.GroupMapper;
 import com.lvzu.entity.*;
+import com.lvzu.utils.Message;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -196,6 +198,12 @@ public class GroupController {
         Integer userId = Integer.valueOf(groupMapper.getCreatorId(userGroupId).get(0).get("userId").toString());
         String className = groupMapper.getCreatorId(userGroupId).get(0).get("className").toString();
         Integer influenced = groupMapper.attendUserGroup(userGroupId,userId,userName,attendUserId,attendUserName,attendTime,attendUserAvatarUrl,className);
+        Message message = new Message();
+        try {
+            message.sendSms(groupMapper.getUserTelephone(userId),2);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
         if (influenced == 1){
             responseEntity = responseEntity.success();
         }else {

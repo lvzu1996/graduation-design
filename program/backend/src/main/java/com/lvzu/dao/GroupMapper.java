@@ -62,6 +62,9 @@ public interface GroupMapper {
     @Select("SELECT * FROM user_group where userId=#{userId} and groupId = #{groupId}")
     Integer getUserGroupId(@Param("userId") Integer userId,@Param("groupId") Integer groupId);
 
+    @Select("SELECT userTelephone FROM user where userId=#{userId}")
+    String getUserTelephone(@Param("userId") Integer userId);
+
     @Insert("INSERT INTO user_group_member(userGroupId,userId,userName,attendUserId,attendUserName,attendTime,attendUserAvatarUrl,className) VALUES(#{userGroupId},#{userId},#{userName},#{attendUserId},#{attenUserName},#{attendTime},#{attendUserAvatarUrl},#{className})")
     Integer attendUserGroup(@Param("userGroupId") Integer userGroupId,@Param("userId") Integer userId,@Param("userName") String userName,@Param("attendUserId") Integer attendUserId,@Param("attenUserName") String attenUserName,@Param("attendTime") String attendUser,@Param("attendUserAvatarUrl") String attendUserAvatarUrl,@Param("className") String className);
 

@@ -1,13 +1,17 @@
 package com.lvzu.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
+import com.aliyuncs.exceptions.ClientException;
 import com.lvzu.controller.requestBody.LoginRequest;
+import com.lvzu.dao.GroupMapper;
 import com.lvzu.dao.LoginMapper;
 import com.lvzu.dao.TestMapper;
 import com.lvzu.entity.ManagerEntity;
 import com.lvzu.entity.ResponseEntity;
 import com.lvzu.entity.UserGroupEntity;
 import com.lvzu.utils.HttpRequestUtil;
+import com.lvzu.utils.Message;
 import com.lvzu.utils.SHA1;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +31,9 @@ public class LoginController {
 
     @Resource
     private LoginMapper loginMapper;
+
+    @Resource
+    private GroupMapper groupMapper;
 
     @Resource
     private TestMapper testMapper;
@@ -58,6 +65,25 @@ public class LoginController {
             responseEntity=responseEntity.fail(20001);
             return responseEntity;
         }
+    }
+
+    @RequestMapping(value ="/api/register", method = RequestMethod.GET)
+    public ResponseEntity Register(@RequestParam("telephone") String telephone) {
+       Message message = new Message();
+        try {
+            //发短信
+            SendSmsResponse response = message.sendSms(telephone,1);;
+            System.out.println("短信接口返回的数据----------------");
+            System.out.println("Code=" + response.getCode());
+            System.out.println("Message=" + response.getMessage());
+            System.out.println("RequestId=" + response.getRequestId());
+            System.out.println("BizId=" + response.getBizId());
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        responseEntity = new com.lvzu.entity.ResponseEntity();
+        responseEntity = responseEntity.success();
+        return responseEntity;
     }
 
     @RequestMapping(value ="/api/wxlogin", method = RequestMethod.POST)
@@ -107,8 +133,8 @@ public class LoginController {
     }
 
     @RequestMapping(value ="/api/test", method = RequestMethod.GET)
-    public Object Test(){
-       List<Map> temp = testMapper.test(7);
-        return temp.get(0).get("userId");
+    public ResponseEntity Test(){
+        responseEntity = new ResponseEntity();
+      return responseEntity.success(groupMapper.getUserTelephone(1));
     }
 }
